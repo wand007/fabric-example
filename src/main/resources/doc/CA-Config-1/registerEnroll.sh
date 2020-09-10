@@ -69,7 +69,7 @@ docker exec -it orderer.ca.example.com bash
 
 export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./admin
+export FABRIC_CA_CLIENT_MSPDIR=./msp
 fabric-ca-client enroll -d -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055 --caname ca-orderer
 
 2） 添加联盟成员
@@ -106,10 +106,10 @@ fabric-ca-client enroll -u https://orderer.example.com:ordererpw@orderer.ca.exam
 
 
 1） 登记orderer.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer.example.com:ordererpw@root.ca.example.com:7054 --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com'] 
+fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer.example.com:ordererpw@root.ca.example.com:7054 --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com']
 
 
 1)  复制证书
@@ -119,16 +119,25 @@ cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com
 cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/signcerts/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/
 cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/keystore/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/key.pem
 
-mkdir  -p ./organizations/ordererOrganizations/example.com/msp/tlscacerts
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ./organizations/ordererOrganizations/example.com/msp/tlscacerts/
 
+mkdir -p ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/admincerts
+cp ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/admincerts/
 mkdir -p ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/
+cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/ ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/
 
-mkdir -p organizations/ordererOrganizations/example.com/users/Admin@example.com
-cp ./organizations/ordererOrganizations/example.com/msp/config.yaml ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/config.yaml
 
-cp ./organizations/ordererOrganizations/example.com/msp/config.yaml ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/config.yaml
+
+mkdir -p ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
+cp ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts/
+mkdir -p ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/tlscacerts
+cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/tlscacerts/
+cp ./config.yaml ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/
+
+
+
+mkdir -p ./crypto-config/ordererOrganizations/example.com/msp
+cp -r ./organizations/ordererOrganizations/example.com/users/Admin@example.com/* ./crypto-config//ordererOrganizations/example.com/
+
 
 
 (三)【docker】方式运行org1CA
@@ -172,14 +181,14 @@ fabric-ca-client register --id.name peer1.org1.example.com --id.type peer --id.a
 
 
 3） 登记Admin@example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@org1.example.com/msp
 fabric-ca-client enroll -u https://Admin@org1.example.com:org1adminpw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=org1.example.com --csr.hosts=['org1.example.com']
 
 
 1） 登记User1@org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./users/User1@org1.example.com/msp
 fabric-ca-client enroll -u https://User1@org1.example.com:org1userpw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=org1.example.com --csr.hosts=['org1.example.com']
@@ -188,7 +197,7 @@ fabric-ca-client enroll -u https://User1@org1.example.com:org1userpw@org1.ca.exa
 
 
 1） 登记peer0.org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org1.example.com/msp
 fabric-ca-client enroll -u https://peer0.org1.example.com:peer0org1pw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com']
@@ -201,28 +210,50 @@ fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org1.exampl
 
 
 1） 复制证书
-mkdir -p ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com
 
-cp ./organizations/peerOrganizations/org1.example.com/msp/config.yaml ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/config.yaml
+mkdir -p ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/admincerts
+cp ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/admincerts
+mkdir -p ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/tlscacerts
+cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/tlscacerts
+cp ./config.yaml ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/
+
+
+
+mkdir -p ./crypto-config/peerOrganizations/org1.example.com/msp
+cp -r ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/* ./crypto-config/peerOrganizations/org1.example.com/
+
+
+
 
 cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/
 cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/signcerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/
 cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/key.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/msp/tlscacerts/
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/tlsca
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+mkdir -p ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts
+cp -r ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts
+mkdir -p ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts
+cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/ca
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/cacerts/* ./organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com
 
-cp ./organizations/peerOrganizations/org1.example.com/msp/config.yaml /organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/config.yaml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -231,7 +262,7 @@ cp ./organizations/peerOrganizations/org1.example.com/msp/config.yaml /organizat
 
 
 1） 登记peer1.org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org1.example.com/msp
 fabric-ca-client enroll -u https://peer1.org1.example.com:peer1org1pw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com']
@@ -246,7 +277,7 @@ fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org1.exampl
 1） 复制证书
 mkdir -p organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com
 
-cp ./organizations/peerOrganizations/org1.example.com/msp/config.yaml ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/config.yaml
+cp ./config.yaml ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/config.yaml
 
 cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/
 cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/signcerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/
@@ -305,14 +336,14 @@ fabric-ca-client register --id.name peer0.org2.example.com --id.type peer --id.a
 fabric-ca-client register --id.name peer1.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org2pw --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com'] -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057 --caname ca-org2
 
 3） 登记Admin@example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@org2.example.com/msp
 fabric-ca-client enroll -u https://Admin@org2.example.com:org2adminpw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=org2.example.com --csr.hosts=['org2.example.com']
 
 
 1） 登记User1@org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./users/User1@org2.example.com/msp
 fabric-ca-client enroll -u https://User1@org2.example.com:org2userpw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=org2.example.com --csr.hosts=['org2.example.com']
@@ -321,64 +352,62 @@ fabric-ca-client enroll -u https://User1@org2.example.com:org2userpw@org2.ca.exa
 
 
 1） 登记peer0.org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org2.example.com/msp
 fabric-ca-client enroll -u https://peer0.org2.example.com:peer0org2pw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com']
 
 1） 登记peer0.org2.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org2.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org2.example.com:peer0org2pw@root.ca.example.com:7054 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com'] 
+fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org2.example.com:peer0org2pw@root.ca.example.com:7054 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com']
 
 
 1） 复制证书
-mkdir -p organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com
+mkdir -p ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
+cp ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
+mkdir -p ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/tlscacerts
+cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/tlscacerts
+cp ./config.yaml ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/
 
-cp ./organizations/peerOrganizations/org2.example.com/msp/config.yaml ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/config.yaml
+
+
+mkdir -p ./crypto-config/peerOrganizations/org2.example.com/msp
+cp -r ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/* ./crypto-config/peerOrganizations/org2.example.com/
+
+
+
 
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/key.pem
 
-mkdir -p ./organizations/peerOrganizations/org2.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/msp/tlscacerts/
 
-mkdir -p ./organizations/peerOrganizations/org2.example.com/tlsca
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
-
-mkdir -p ./organizations/peerOrganizations/org2.example.com/ca
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/cacerts/* ./organizations/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
-
-mkdir -p organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com
-
-mkdir -p organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com
-
-cp ./organizations/peerOrganizations/org2.example.com/msp/config.yaml ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/config.yaml
-
+mkdir -p ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
+cp -r ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
+mkdir -p ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts
+cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts
 
 
 3. 生成peer1.org2.example.com的msp和tls
 
 
 1） 登记peer1.org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org2.example.com/msp
 fabric-ca-client enroll -u https://peer1.org2.example.com:peer1org2pw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com']
 
 1） 登记peer1.org2.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem 
+export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org2.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org2.example.com:peer1org2pw@root.ca.example.com:7054 --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com']
 
 
 1） 复制证书
-mkdir -p organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com
-
-cp ./organizations/peerOrganizations/org2.example.com/msp/config.yaml ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/config.yaml
+cp ./config.yaml ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/config.yaml
 
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/signcerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/
@@ -392,7 +421,6 @@ cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.c
 
 mkdir -p ./organizations/peerOrganizations/org2.example.com/ca
 cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/cacerts/* ./organizations/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
-
 
 
 
