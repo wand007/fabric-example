@@ -1,0 +1,29 @@
+version: '2'
+
+volumes:
+  root.ca.example.com:
+
+networks:
+  byfn:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}
+
+services:
+
+  root.ca.example.com:
+    container_name: root.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -d -b root-admin:root-adminpw --port 7054 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=root.ca.example.com 
+      - FABRIC_CA_SERVER_CSR_HOSTS=root.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_NAME=ca-root
+    volumes:
+      - ./tls-ca:/etc/hyperledger/fabric-ca-server
+    networks:       
+      - byfn       
+    ports:
+      - 7054:7054
