@@ -22,7 +22,7 @@ services:
       - FABRIC_CA_SERVER_DEBUG=true
       - FABRIC_CA_SERVER_CA_NAME=ca-root
     volumes:
-      - ./tls-ca:/etc/hyperledger/fabric-ca-server
+      - ./crypto-config/rootOrganizations/root.example.com:/etc/hyperledger/fabric-ca-server
     networks:       
       - byfn       
     ports:
