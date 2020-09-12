@@ -21,7 +21,6 @@ docker exec -it root.ca.example.com bash
 export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/crypto/tls-cert.pem
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./admin
-
 fabric-ca-client enroll -d -u https://root-admin:root-adminpw@root.ca.example.com:7054
 此时有新的问及那目录生成
 
@@ -40,11 +39,11 @@ fabric-ca-client register --id.name peer0.org1.example.com --id.type peer --id.a
 fabric-ca-client register --id.name peer1.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org1pw --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
 fabric-ca-client register --id.name peer0.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org2pw --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
 fabric-ca-client register --id.name peer1.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org2pw --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer1.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordere1rpw --csr.cn=orderer1.example.com --csr.hosts=['orderer1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer2.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordere2rpw --csr.cn=orderer2.example.com --csr.hosts=['orderer2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer3.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordere3rpw --csr.cn=orderer3.example.com --csr.hosts=['orderer3.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer4.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordere4rpw --csr.cn=orderer4.example.com --csr.hosts=['orderer4.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer5.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordere5rpw --csr.cn=orderer5.example.com --csr.hosts=['orderer5.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client register --id.name orderer1.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer1pw --csr.cn=orderer1.example.com --csr.hosts=['orderer1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client register --id.name orderer2.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer2pw --csr.cn=orderer2.example.com --csr.hosts=['orderer2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client register --id.name orderer3.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer3pw --csr.cn=orderer3.example.com --csr.hosts=['orderer3.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client register --id.name orderer4.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer4pw --csr.cn=orderer4.example.com --csr.hosts=['orderer4.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client register --id.name orderer5.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer5pw --csr.cn=orderer5.example.com --csr.hosts=['orderer5.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
 
 
 退出容器 exit
