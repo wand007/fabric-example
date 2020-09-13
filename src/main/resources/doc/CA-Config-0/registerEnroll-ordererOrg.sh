@@ -81,7 +81,8 @@ mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.exam
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp
 
-
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts/
 
 
 4. 生成orderer2.example.com的msp和tls
