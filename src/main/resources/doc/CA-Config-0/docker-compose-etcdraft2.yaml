@@ -24,7 +24,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/blocks/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # enabled TLS
@@ -43,7 +43,7 @@ services:
       - byfn
     command: orderer  
     volumes:
-      - ./channel-artifacts:/var/hyperledger/orderer
+      - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/:/var/hyperledger/orderer/tls
       - orderer2.example.com:/var/hyperledger/production/orderer
@@ -58,7 +58,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/blocks/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # enabled TLS
@@ -77,7 +77,7 @@ services:
     networks:
       - byfn
     volumes:
-      - ./channel-artifacts:/var/hyperledger/orderer
+      - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp:/var/hyperledger/orderer/msp
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/:/var/hyperledger/orderer/tls
       - orderer3.example.com:/var/hyperledger/production/orderer
@@ -92,7 +92,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=10050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/blocks/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # enabled TLS
@@ -111,7 +111,7 @@ services:
     networks:
       - byfn
     volumes:
-      - ./channel-artifacts:/var/hyperledger/orderer
+      - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp:/var/hyperledger/orderer/msp
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/:/var/hyperledger/orderer/tls
       - orderer4.example.com:/var/hyperledger/production/orderer
@@ -126,7 +126,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=11050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/blocks/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # enabled TLS
@@ -145,7 +145,7 @@ services:
     networks:
       - byfn
     volumes:
-      - ./channel-artifacts:/var/hyperledger/orderer
+      - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp:/var/hyperledger/orderer/msp
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/:/var/hyperledger/orderer/tls
       - orderer5.example.com:/var/hyperledger/production/orderer
