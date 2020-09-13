@@ -22,11 +22,12 @@ fabric-ca-client enroll -d -u https://org2-admin:org2-adminpw@org2.ca.example.co
 
 2） 添加联盟成员
 fabric-ca-client affiliation list -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
-fabric-ca-client affiliation remove --force org2 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
+fabric-ca-client affiliation remove --force org1 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
 fabric-ca-client affiliation remove --force org2 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
 fabric-ca-client affiliation add com -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
 fabric-ca-client affiliation add com.example -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
 fabric-ca-client affiliation add com.example.org2 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
+fabric-ca-client affiliation list -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
 
 1. 生成example.com的msp
 3） 注册Admin@example.com
@@ -57,18 +58,6 @@ fabric-ca-client enroll -u https://User1@org2.example.com:org2userpw@org2.ca.exa
 
 
 
-mkdir -p ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
-cp ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts/
-cp ./org2-config/config.yaml ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/
-
-mkdir -p ./crypto-config/peerOrganizations/org2.example.com/msp
-cp -r ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/ ./crypto-config/peerOrganizations/org2.example.com/
-
-
-
-
-
-
 3. 生成peer0.org2.example.com的msp和tls
 
 
@@ -83,17 +72,6 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/crypto/r
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org2.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org2.example.com:peer0org2pw@root.ca.example.com:7054 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com']
-
-
-1） 复制证书
-
-
-cp ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/key.pem
-mkdir -p ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
-cp ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts/
-cp ./org2-config/config.yaml ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/
-
-
 
 
 
@@ -113,17 +91,36 @@ export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org2.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org2.example.com:peer1org2pw@root.ca.example.com:7054 --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com']
 
 
-1） 复制证书
+
+
+
+
+
+
+复制证书文件
+1)  复制Admin@org2.example.com的msp证书
+
+mkdir -p ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
+cp ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts/
+cp ./org2-config/config.yaml ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/
+
+mkdir -p ./crypto-config/peerOrganizations/org2.example.com/msp
+cp -r ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/ ./crypto-config/peerOrganizations/org2.example.com/
+
+2） 复制peer0.org2.example.com证书
+
+cp ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/key.pem
+mkdir -p ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
+cp ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts/
+cp ./org2-config/config.yaml ./crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/
+
+
+3） 复制peer1.org2.example.com证书
 
 cp ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/admincerts
 cp ./crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/admincerts/
 cp ./org2-config/config.yaml ./crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/
-
-
-
-
-
 
 
 

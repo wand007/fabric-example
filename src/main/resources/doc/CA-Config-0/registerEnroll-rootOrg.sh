@@ -33,6 +33,7 @@ fabric-ca-client affiliation add com -u https://root-admin:root-adminpw@root.ca.
 fabric-ca-client affiliation add com.example -u https://root-admin:root-adminpw@root.ca.example.com:7054
 fabric-ca-client affiliation add com.example.org1 -u https://root-admin:root-adminpw@root.ca.example.com:7054
 fabric-ca-client affiliation add com.example.org2 -u https://root-admin:root-adminpw@root.ca.example.com:7054
+fabric-ca-client affiliation list -u https://root-admin:root-adminpw@root.ca.example.com:7054
 
 注册TLS CA的管理员
 fabric-ca-client register --id.name peer0.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org1pw --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054

@@ -26,21 +26,15 @@ fabric-ca-client affiliation remove --force org1 -u https://orderer-admin:ordere
 fabric-ca-client affiliation remove --force org2 -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 fabric-ca-client affiliation add com -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 fabric-ca-client affiliation add com.example -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-
+fabric-ca-client affiliation list -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 
 2. 注册orderer
 1） 注册Admin@example.com
 fabric-ca-client register --id.name Admin@example.com --id.type admin --id.affiliation "com.example" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=ordereradminpw --csr.cn=example.com --csr.hosts=['example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-
-4） 注册orderer1.example.com
 fabric-ca-client register --id.name orderer1.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer1pw --csr.cn=orderer1.example.com --csr.hosts=['orderer1.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-4） 注册orderer2.example.com
 fabric-ca-client register --id.name orderer2.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer2pw --csr.cn=orderer2.example.com --csr.hosts=['orderer2.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-4） 注册orderer3.example.com
 fabric-ca-client register --id.name orderer3.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer3pw --csr.cn=orderer3.example.com --csr.hosts=['orderer3.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-4） 注册orderer4.example.com
 fabric-ca-client register --id.name orderer4.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer4pw --csr.cn=orderer4.example.com --csr.hosts=['orderer4.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-4） 注册orderer5.example.com
 fabric-ca-client register --id.name orderer5.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=orderer5pw --csr.cn=orderer5.example.com --csr.hosts=['orderer5.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 
 
@@ -50,13 +44,6 @@ export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@example.com/msp
 fabric-ca-client enroll -u https://Admin@example.com:ordereradminpw@orderer.ca.example.com:7055 --csr.cn=example.com --csr.hosts=['example.com']
 
-
-mkdir -p ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
-cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
-cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/
-
-mkdir -p ./crypto-config/ordererOrganizations/example.com/msp
-cp -r ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/  ./crypto-config/ordererOrganizations/example.com/
 
 
  (二) 生成orderer1.example.com的msp和tls
@@ -75,14 +62,6 @@ export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer1.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer1.example.com:orderer1pw@root.ca.example.com:7054 --csr.cn=orderer1.example.com --csr.hosts=['orderer1.example.com']
 
 
-1)  复制证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/key.pem
-mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts
-cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts/
-cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp
-
-mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts/
 
 
 4. 生成orderer2.example.com的msp和tls
@@ -99,14 +78,6 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/crypto/r
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer2.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer2.example.com:orderer2pw@root.ca.example.com:7054 --csr.cn=orderer2.example.com --csr.hosts=['orderer2.example.com']
-
-
-1)  复制证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/key.pem
-mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts
-cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts/
-cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp
-
 
 
 
@@ -126,15 +97,6 @@ export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer3.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer3.example.com:orderer3pw@root.ca.example.com:7054 --csr.cn=orderer3.example.com --csr.hosts=['orderer3.example.com']
 
 
-1)  复制证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/key.pem
-mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts
-cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts/
-cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp
-
-
-
-
 
  (四) 生成orderer4.example.com的msp和tls
 
@@ -150,14 +112,6 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/crypto/r
 export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
 export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer4.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer4.example.com:orderer4pw@root.ca.example.com:7054 --csr.cn=orderer4.example.com --csr.hosts=['orderer4.example.com']
-
-
-1)  复制证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/key.pem
-mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts
-cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts/
-cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp
-
 
 
 
@@ -177,7 +131,47 @@ export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer5.example.com/tls
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer5.example.com:orderer5pw@root.ca.example.com:7054 --csr.cn=orderer5.example.com --csr.hosts=['orderer5.example.com']
 
 
-1)  复制证书
+
+
+复制证书文件
+1)  复制Admin@example.com的msp证书
+mkdir -p ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
+cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
+cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/
+
+mkdir -p ./crypto-config/ordererOrganizations/example.com/msp
+cp -r ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/  ./crypto-config/ordererOrganizations/example.com/
+
+1)  复制orderer1.example.com证书
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/key.pem
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts
+cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts/
+cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp
+
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts/
+
+
+2)  复制orderer2.example.com证书
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/key.pem
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts
+cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts/
+cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp
+
+3)  复制orderer3.example.com证书
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/key.pem
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts
+cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts/
+cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp
+
+4)  复制orderer4.example.com证书
+cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/key.pem
+mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts
+cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts/
+cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp
+
+
+5)  复制orderer5.example.com证书
 cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp/admincerts/
