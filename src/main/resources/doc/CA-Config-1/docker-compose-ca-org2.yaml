@@ -21,7 +21,7 @@ services:
       - FABRIC_CA_SERVER_DEBUG=true
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
     volumes:
-      - ./org2-ca:/etc/hyperledger/fabric-ca-server
+      - ./crypto-config/peerOrganizations/org2.example.com:/etc/hyperledger/fabric-ca-server
     networks: 
       - byfn  
     ports:
