@@ -42,7 +42,7 @@ services:
     volumes:
         - ./channel-artifacts:/var/hyperledger/blocks
         - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp:/var/hyperledger/orderer/msp
-        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/:/var/hyperledger/orderer/tls
+        - ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls:/var/hyperledger/orderer/tls
         - orderer1.example.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050

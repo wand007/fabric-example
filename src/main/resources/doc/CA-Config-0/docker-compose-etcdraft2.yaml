@@ -13,6 +13,8 @@ volumes:
 
 networks:
   byfn:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}
 
 services:
 
@@ -41,7 +43,7 @@ services:
     container_name: orderer2.example.com
     networks:
       - byfn
-    command: orderer  
+    command: orderer
     volumes:
       - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp:/var/hyperledger/orderer/msp
