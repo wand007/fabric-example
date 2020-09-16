@@ -103,14 +103,14 @@ cp -r ./crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.exampl
 2） 复制peer0.org1.example.com证书
 
 
-cp ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/key.pem 
+mv ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts
 cp ./crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts/
 cp ./org1-config/config.yaml ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/
 
 3） 复制peer1.org1.example.com证书
 
-cp ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/key.pem 
+mv ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/*_sk ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/admincerts
 cp ./crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/admincerts/
 cp ./org1-config/config.yaml ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/

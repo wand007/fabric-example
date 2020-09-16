@@ -23,7 +23,7 @@ fabric-ca-client enroll -d -u https://orderer-admin:orderer-adminpw@orderer.ca.e
 
 2. 注册orderer
 1） 注册Admin@example.com
-fabric-ca-client register --id.name Admin@example.com --id.type admin  --id.attrs "hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" --id.secret=ordereradminpw -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
+fabric-ca-client register --id.name Admin@example.com --id.type admin --id.secret=ordereradminpw -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 fabric-ca-client register --id.name orderer1.example.com --id.type orderer --id.secret=orderer1pw -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 fabric-ca-client register --id.name orderer2.example.com --id.type orderer --id.secret=orderer2pw -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 fabric-ca-client register --id.name orderer3.example.com --id.type orderer --id.secret=orderer3pw -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
@@ -136,7 +136,7 @@ mkdir -p ./crypto-config/ordererOrganizations/example.com/msp
 cp -r ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/  ./crypto-config/ordererOrganizations/example.com/
 
 1)  复制orderer1.example.com证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/key.pem
+mv ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/msp
@@ -146,26 +146,26 @@ cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.co
 
 
 2)  复制orderer2.example.com证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/key.pem
+mv ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/msp
 
 3)  复制orderer3.example.com证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/key.pem
+mv ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/msp
 
 4)  复制orderer4.example.com证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/key.pem
+mv ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/msp
 
 
 5)  复制orderer5.example.com证书
-cp ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/key.pem
+mv ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/*_sk ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/keystore/key.pem
 mkdir -p ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp/admincerts
 cp ./crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp/admincerts/
 cp ./orderer-config/config.yaml ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/msp
