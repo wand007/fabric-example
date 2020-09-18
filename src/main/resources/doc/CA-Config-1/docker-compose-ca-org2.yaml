@@ -17,6 +17,7 @@ services:
     environment:
       - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=org2.ca.example.com
       - FABRIC_CA_SERVER_CSR_HOSTS=org2.ca.example.com
       - FABRIC_CA_SERVER_DEBUG=true
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
