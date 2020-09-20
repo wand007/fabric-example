@@ -1,0 +1,87 @@
+version: '2'
+
+volumes:
+  root.ca.example.com:
+  orderer.ca.example.com:
+  org1.ca.example.com:
+  org2.ca.example.com:
+
+networks:
+  byfn:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}
+
+services:
+
+  root.ca.example.com:
+    container_name: root.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -d -b root-admin:root-adminpw --port 7054 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/tls-ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=root.ca.example.com 
+      - FABRIC_CA_SERVER_CSR_HOSTS=root.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_NAME=ca-root
+    volumes:
+      - ./crypto-config/tls-ca:/etc/hyperledger/fabric-ca-server/tls-ca
+    networks:       
+      - byfn       
+    ports:
+      - 7054:7054
+
+  orderer.ca.example.com:
+    container_name: orderer.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -b orderer-admin:orderer-adminpw --port 7055 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/org0/ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=orderer.ca.example.com 
+      - FABRIC_CA_SERVER_CSR_HOSTS=orderer.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_NAME=ca-orderer  
+    volumes:
+      - ./crypto-config/org0/ca:/etc/hyperledger/fabric-ca-server/org0/ca
+    networks: 
+      - byfn  
+    ports:
+      - 7055:7055
+
+  org1.ca.example.com:
+    container_name: org1.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -b org1-admin:org1-adminpw --port 7056 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/org1/ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=org1.ca.example.com 
+      - FABRIC_CA_SERVER_CSR_HOSTS=org1.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_NAME=ca-org1
+    volumes:
+      - ./crypto-config/org1/ca:/etc/hyperledger/fabric-ca-server/org1/ca
+    networks: 
+      - byfn  
+    ports:
+      - 7056:7056
+
+
+  org2.ca.example.com:
+    container_name: org2.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -b org2-admin:org2-adminpw --port 7057 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server/org2/ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=org2.ca.example.com 
+      - FABRIC_CA_SERVER_CSR_HOSTS=org2.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_NAME=ca-org2
+    volumes:
+      - ./crypto-config/org2/ca:/etc/hyperledger/fabric-ca-server/org2/ca
+    networks: 
+      - byfn  
+    ports:
+      - 7057:7057            

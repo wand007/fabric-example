@@ -1,0 +1,33 @@
+version: '2'
+
+volumes:
+  org2-tls.ca.example.com:
+
+networks:
+  byfn:
+    external:
+      name: first-network
+
+services:
+
+  org2-tls.ca.example.com:
+    container_name: org2-tls.ca.example.com
+    image: hyperledger/fabric-ca:1.4.7
+    command: sh -c 'fabric-ca-server start -b org2-tls-ca-admin:org2-tls-ca-adminpw --port 8057 -u https://root-ca-admin:root-ca-adminpw@root.ca.example.com:7054 --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    environment:
+      - FABRIC_CA_SERVER_INTERMEDIATE_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/root-ca-cert.pem
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_HOSTS=org2-tls.ca.example.com
+      - FABRIC_CA_SERVER_DEBUG=true
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server/ca-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server/msp/keystore/*_sk
+      - FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-client
+      - FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca-cert.pem
+    volumes:
+      - ./fabric-ca-server/intermediacatls3:/etc/hyperledger/fabric-ca-server
+      - ./fabric-ca-client/intermediacatls3:/etc/hyperledger/fabric-ca-client
+    networks: 
+      - byfn  
+    ports:
+      - 8057:8057

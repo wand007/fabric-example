@@ -25,7 +25,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: ./crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: ./crypto-config/org0/ca/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -52,7 +52,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org1MSP
 
-        MSPDir: ./crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: ./crypto-config/org1/ca/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -87,7 +87,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org2MSP
 
-        MSPDir: ./crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: ./crypto-config/org2/ca/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -323,24 +323,24 @@ Profiles:
                 Consenters:
                 - Host: orderer1.example.com
                   Port: 7050
-                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/ca/orderers/orderer1/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/ca/orderers/orderer1/tls-msp/signcerts/cert.pem
                 - Host: orderer2.example.com
                   Port: 8050
-                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/ca/orderers/orderer2/tls-msp/signcerts/cert.pem 
+                  ServerTLSCert: ./crypto-config/org0/ca/orderers/orderer2/tls-msp/signcerts/cert.pem
                 - Host: orderer3.example.com
                   Port: 9050
-                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/ca/orderers/orderer3/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/ca/orderers/orderer3/tls-msp/signcerts/cert.pem
                 - Host: orderer4.example.com
                   Port: 10050
-                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/ca/orderers/orderer4/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/ca/orderers/orderer4/tls-msp/signcerts/cert.pem
                 - Host: orderer5.example.com
                   Port: 11050
-                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/ca/orderers/orderer5/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/ca/orderers/orderer5/tls-msp/signcerts/cert.pem
             Addresses:
                 - orderer1.example.com:7050
                 - orderer2.example.com:8050
