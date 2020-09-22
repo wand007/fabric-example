@@ -31,12 +31,12 @@ services:
       - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/keystore/key.pem
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/signcerts/cert.pem
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/tlscacerts/tls-0.0.0.0-7054.pem]
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/tlscacerts/tls-0-0-0-0-7054.pem]
       - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
       - ORDERER_KAFKA_VERBOSE=true
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/signcerts/cert.pem
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/keystore/key.pem
-      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/tlscacerts/tls-0.0.0.0-7054.pem]
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/tlscacerts/tls-0-0-0-0-7054.pem]
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:

@@ -5,7 +5,7 @@ cd $GOPATH/src/github.com/hyperledger/fabric-samples/first
 
 docker-compose -f docker-compose-ca-root.yaml  down --volumes --remove-orphans
 
-export FABRIC_CA_BASE_HOME=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca/crypto-config
+export FABRIC_CA_BASE_HOME=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca
 
 启动CA服务
 docker-compose -f docker-compose-cli-ca.yaml up -d 2>&1
@@ -14,8 +14,8 @@ docker-compose -f docker-compose-cli-ca.yaml up -d 2>&1
 docker exec -it root.ca.example.com bash
 
 登陆
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/tls-ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/tls-ca/admin
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/tls-ca/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://root-admin:root-adminpw@0.0.0.0:7054
 
 
@@ -43,8 +43,8 @@ fabric-ca-client register --id.name orderer5.example.com --id.type orderer --id.
  docker exec -it orderer.ca.example.com bash
 
 登录
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/admin
 fabric-ca-client enroll -d -u https://orderer-admin:orderer-adminpw@0.0.0.0:7055
 
 
@@ -62,8 +62,8 @@ fabric-ca-client register --id.name orderer5.example.com --id.type orderer --id.
  docker exec -it org1.ca.example.com bash
 
 登录
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/admin
 fabric-ca-client enroll -d -u https://org1-admin:org1-adminpw@0.0.0.0:7056
 
 
@@ -79,8 +79,8 @@ fabric-ca-client register --id.name peer1.org1.example.com --id.type peer --id.s
 docker exec -it org2.ca.example.com bash
 
 登录
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/admin
 fabric-ca-client enroll -d -u https://org2-admin:org2-adminpw@0.0.0.0:7057
 
 
@@ -96,68 +96,68 @@ cp ./crypto-config/tls-ca/crypto/ca-cert.pem ./crypto-config/org0/ca/crypto/root
  进入容器
  docker exec -it 0.0.0.0 bash
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer1
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://orderer1.example.com:orderer1pw@0.0.0.0:7055
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer1
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer1.example.com:orderer1pw@0.0.0.0:7054 --csr.hosts=['orderer1.example.com']
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer2
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer2
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://orderer2.example.com:orderer2pw@0.0.0.0:7055
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer2
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer2
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer2.example.com:orderer2pw@0.0.0.0:7054 --csr.hosts=['orderer2.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer3
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer3
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -u https://orderer3.example.com:orderer3pw@0.0.0.0:7055
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer3
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer3
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer3.example.com:orderer3pw@0.0.0.0:7054 --csr.hosts=['orderer3.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer4
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer4
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://orderer4.example.com:orderer4pw@0.0.0.0:7055
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer4
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer4
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer4.example.com:orderer4pw@0.0.0.0:7054 --csr.hosts=['orderer4.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer5
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer5
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://orderer5.example.com:orderer5pw@0.0.0.0:7055
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/orderers/orderer5
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/orderers/orderer5
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer5.example.com:orderer5pw@0.0.0.0:7054 --csr.hosts=['orderer5.example.com']
 
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org0/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org0/ca/users/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org0/ca/users/admin
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://Admin@example.com:ordereradminpw@0.0.0.0:7055
 
@@ -189,7 +189,7 @@ cp ./crypto-config/org0/ca/users/admin/msp/signcerts/cert.pem ./crypto-config/or
 cp ./orderer-config/config.yaml ./crypto-config/org0/ca/users/admin/msp/
 
 mkdir -p ./crypto-config/org0/ca/users/admin/msp/tlscacerts
-cp -r ./crypto-config/org0/ca/orderers/orderer1/tls-msp/tlscacerts/tls-0.0.0.0-7054.pem ./crypto-config/org0/ca/users/admin/msp/tlscacerts
+cp -r ./crypto-config/org0/ca/orderers/orderer1/tls-msp/tlscacerts/tls-0-0-0-0-7054.pem ./crypto-config/org0/ca/users/admin/msp/tlscacerts
 
 mkdir -p ./crypto-config/org0/ca/msp
 cp -r ./crypto-config/org0/ca/users/admin/msp ./crypto-config/org0/ca/
@@ -201,38 +201,38 @@ cp -r ./crypto-config/org0/ca/users/admin/msp ./crypto-config/org0/ca/
 cp ./crypto-config/tls-ca/crypto/ca-cert.pem ./crypto-config/org1/ca/crypto/root-ca-cert.pem
 docker exec -it 0.0.0.0 bash
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/peer0
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/peer0
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://peer0.org1.example.com:peer0org1pw@0.0.0.0:7056
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/peer0
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/peer0
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org1.example.com:peer0org1pw@0.0.0.0:7054 --csr.hosts=['peer0.org1.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/peer1
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://peer1.org1.example.com:peer1org1pw@0.0.0.0:7056
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/peer1
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org1.example.com:peer1org1pw@0.0.0.0:7054 --csr.hosts=['peer1.org1.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/users/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/users/admin
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://Admin@org1.example.com:org1adminpw@0.0.0.0:7056
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org1/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org1/ca/users/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org1/ca/users/admin
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://admin.org1.example.com:org1AdminPW@0.0.0.0:7054 --csr.hosts=['admin.org1.example.com']
 
@@ -251,9 +251,9 @@ cp ./crypto-config/org1/ca/users/admin/msp/signcerts/cert.pem ./crypto-config/or
 
 cp ./org1-config/config.yaml ./crypto-config/org1/ca/users/admin/msp/
 
-mkdir -p ./crypto-config/org1/ca/msp
+mkdir -p ./crypto-config/org1/ca/msp/tlscacerts
 cp -r ./crypto-config/org1/ca/users/admin/msp ./crypto-config/org1/ca/
-cp -r ./crypto-config/org1/ca/users/admin/tls-msp/tlscacerts/tls-0.0.0.0-7054.pem ./crypto-config/org1/ca/msp/tlscacerts/
+cp -r ./crypto-config/org1/ca/users/admin/tls-msp/tlscacerts/tls-0-0-0-0-7054.pem ./crypto-config/org1/ca/msp/tlscacerts/
 
 
 
@@ -262,37 +262,37 @@ cp ./crypto-config/tls-ca/crypto/ca-cert.pem ./crypto-config/org2/ca/crypto/root
 
 docker exec -it 0.0.0.0 bash
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/peer0
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/peer0
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://peer0.org2.example.com:peer0org2pw@0.0.0.0:7057
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/peer0
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/peer0
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org2.example.com:peer0org2pw@0.0.0.0:7054 --csr.hosts=['peer0.org2.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/peer1
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://peer1.org2.example.com:peer1org2pw@0.0.0.0:7057
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/peer1
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org2.example.com:peer1org2pw@0.0.0.0:7054 --csr.hosts=['peer1.org2.example.com']
 
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/users/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/users/admin
 export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://Admin@org2.example.com:org2adminpw@0.0.0.0:7057
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=FABRIC_CA_BASE_HOME/org2/ca/crypto/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=FABRIC_CA_BASE_HOME/org2/ca/users/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/crypto/root-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$FABRIC_CA_BASE_HOME/crypto-config/org2/ca/users/admin
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d --enrollment.profile tls -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7054 --csr.hosts=['admin.org2.example.com']
 
@@ -311,11 +311,19 @@ cp ./crypto-config/org2/ca/users/admin/msp/signcerts/cert.pem ./crypto-config/or
 
 cp ./org2-config/config.yaml ./crypto-config/org2/ca/users/admin/msp/
 
-mkdir -p ./crypto-config/org2/ca/msp
+mkdir -p ./crypto-config/org2/ca/msp/tlscacerts
 cp -r ./crypto-config/org2/ca/users/admin/msp ./crypto-config/org2/ca/
-cp -r ./crypto-config/org2/ca/users/admin/tls-msp/tlscacerts/tls-0.0.0.0-7054.pem ./crypto-config/org2/ca/msp/tlscacerts/
+cp -r ./crypto-config/org2/ca/users/admin/tls-msp/tlscacerts/tls-0-0-0-0-7054.pem ./crypto-config/org2/ca/msp/tlscacerts/
 
 
+
+
+configtxgen -profile SampleMultiNodeEtcdRaft -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg Org1MSP
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg Org2MSP
+
+docker-compose -f docker-compose-orderer1.yaml up
 
 
 
