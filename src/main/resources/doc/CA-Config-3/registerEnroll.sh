@@ -27,6 +27,8 @@ fabric-ca-client register -d --id.name admin-org2 --id.secret org2AdminPW --id.t
 fabric-ca-client register -d --id.name orderer1-org0 --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer2-org0 --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer3-org0 --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer4-org0 --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer5-org0 --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 
 
 
@@ -120,6 +122,7 @@ fabric-ca-client enroll -d -u https://admin-org1:org1AdminPW@0.0.0.0:7052 --enro
 
 
 mv $FABRIC_CA_BASE_HOME/crypto-config/org1/admin/tls-msp/keystore/*_sk $FABRIC_CA_BASE_HOME/crypto-config/org1/admin/tls-msp/keystore/key.pem
+
 mkdir -p $FABRIC_CA_BASE_HOME/crypto-config/org1/peer1/msp/admincerts
 cp $FABRIC_CA_BASE_HOME/crypto-config/org1/admin/msp/signcerts/cert.pem $FABRIC_CA_BASE_HOME/crypto-config/org1/peer1/msp/admincerts/org1-admin-cert.pem
 mkdir -p $FABRIC_CA_BASE_HOME/crypto-config/org1/peer2/msp/admincerts
@@ -289,20 +292,20 @@ cp $FABRIC_CA_BASE_HOME/crypto-config/org0/admin/msp/signcerts/cert.pem $FABRIC_
 
 
 
-cp ./orderer-config/config.yaml ./crypto-config/org0/ca/admin/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/admin/msp/
 cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer1-org0/msp/
 cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer2-org0/msp/
 cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer3-org0/msp/
 cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer4-org0/msp/
 cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer5-org0/msp/
 
-cp ./org1-config/config.yaml ./crypto-config/org1/ca/admin/msp/
-cp ./org1-config/config.yaml ./crypto-config/org1/peer0/msp/
+cp ./org1-config/config.yaml ./crypto-config/org1/admin/msp/
 cp ./org1-config/config.yaml ./crypto-config/org1/peer1/msp/
+cp ./org1-config/config.yaml ./crypto-config/org1/peer2/msp/
 
-cp ./org2-config/config.yaml ./crypto-config/org1/ca/admin/msp/
-cp ./org2-config/config.yaml ./crypto-config/org1/peer0/msp/
-cp ./org2-config/config.yaml ./crypto-config/org1/peer1/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/admin/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/peer1/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/peer2/msp/
 
 
 org0的admin证书
