@@ -3,7 +3,7 @@ cd $GOPATH/src/github.com/hyperledger/fabric-samples/first
 
 首次运行清除docker影响
 
-docker-compose -f docker-compose-ca-root.yaml  down --volumes --remove-orphans
+docker-compose -f docker-compose-cli-ca.yaml  down --volumes --remove-orphans
 
 export FABRIC_CA_BASE_HOME=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca
 
