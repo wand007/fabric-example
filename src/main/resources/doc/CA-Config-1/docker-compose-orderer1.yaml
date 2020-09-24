@@ -20,6 +20,8 @@ services:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - ORDERER_HOME=/var/hyperledger/orderer
+      - ORDERER_HOST=orderer1.example.com
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=7050

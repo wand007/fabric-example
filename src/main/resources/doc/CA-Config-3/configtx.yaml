@@ -321,32 +321,32 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: orderer1.example.com
+                - Host: orderer1-org0
                   Port: 7050
                   ClientTLSCert: ./crypto-config/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
                   ServerTLSCert: ./crypto-config/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
-                - Host: orderer2.example.com
+                - Host: orderer2-org0
                   Port: 8050
                   ClientTLSCert: ./crypto-config/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
                   ServerTLSCert: ./crypto-config/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
-                - Host: orderer3.example.com
+                - Host: orderer3-org0
                   Port: 9050
                   ClientTLSCert: ./crypto-config/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
                   ServerTLSCert: ./crypto-config/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
-                - Host: orderer4.example.com
+                - Host: orderer4-org0
                   Port: 10050
                   ClientTLSCert: ./crypto-config/org0/orderers/orderer4-org0/tls-msp/signcerts/cert.pem
                   ServerTLSCert: ./crypto-config/org0/orderers/orderer4-org0/tls-msp/signcerts/cert.pem
-                - Host: orderer5.example.com
+                - Host: orderer5-org0
                   Port: 11050
                   ClientTLSCert: ./crypto-config/org0/orderers/orderer5-org0/tls-msp/signcerts/cert.pem
                   ServerTLSCert: ./crypto-config/org0/orderers/orderer5-org0/tls-msp/signcerts/cert.pem
             Addresses:
-                - orderer1.example.com:7050
-                - orderer2.example.com:8050
-                - orderer3.example.com:9050
-                - orderer4.example.com:10050
-                - orderer5.example.com:11050
+                - orderer1-org0:7050
+                - orderer2-org0:8050
+                - orderer3-org0:9050
+                - orderer4-org0:10050
+                - orderer5-org0:11050
 
             Organizations:
             - *OrdererOrg
