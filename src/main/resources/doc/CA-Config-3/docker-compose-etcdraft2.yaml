@@ -120,7 +120,7 @@ services:
     volumes:
       - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/org0/orderers/orderer4-org0/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/org0/orderers/orderer4-org0/tls/:/var/hyperledger/orderer/tls
+      - ./crypto-config/org0/orderers/orderer4-org0/tls-msp/:/var/hyperledger/orderer/tls
       - orderer4-org0:/var/hyperledger/production/orderer
     ports:
       - 10050:10050
@@ -156,7 +156,7 @@ services:
     volumes:
       - ./channel-artifacts:/var/hyperledger/blocks
       - ./crypto-config/org0/orderers/orderer5-org0/msp:/var/hyperledger/orderer/msp
-      - ./crypto-config/org0/orderers/orderer5-org0/tls/:/var/hyperledger/orderer/tls
+      - ./crypto-config/org0/orderers/orderer5-org0/tls-msp/:/var/hyperledger/orderer/tls
       - orderer5-org0:/var/hyperledger/production/orderer
     ports:
       - 11050:11050
