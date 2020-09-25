@@ -339,7 +339,7 @@ configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/c
 configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg org1MSP
 configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg org2MSP
 
-## docker-compose -f docker-compose-orderer1.yaml up
+##  docker-compose -f docker-compose-etcdraft2.yaml up -d 2>&1
 
 
 
