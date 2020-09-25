@@ -21,7 +21,7 @@ networks:
 services:
   peer1-org1:
     container_name: peer1-org1
-    image: hyperledger/fabric-peer:latest
+    image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
       - CORE_PEER_ID=peer1-org1
       - CORE_PEER_ADDRESS=peer1-org1:7051
@@ -51,7 +51,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer1
     volumes:
       - /var/run:/host/var/run
-      - /usr/local/home:/usr/local/home
+      - ./crypto-config:/usr/local/home
     networks:
       - byfn
     ports:
@@ -59,7 +59,7 @@ services:
 
   peer2-org1:
     container_name: peer2-org1
-    image: hyperledger/fabric-peer:latest
+    image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
       - CORE_PEER_ID=peer2-org1
       - CORE_PEER_ADDRESS=peer2-org1:8051
@@ -93,7 +93,7 @@ services:
 
   peer1-org2:
     container_name: peer1-org2
-    image: hyperledger/fabric-peer:latest
+    image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
       - CORE_PEER_ID=peer1-org2
       - CORE_PEER_ADDRESS=peer1-org2:9051
@@ -126,7 +126,7 @@ services:
 
   peer2-org2:
     container_name: peer2-org2
-    image: hyperledger/fabric-peer:latest
+    image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
       - CORE_PEER_ID=peer2-org2
       - CORE_PEER_ADDRESS=peer2-org2:10051
@@ -159,7 +159,7 @@ services:
       
   orderer1-org0:
     container_name: orderer1-org0
-    image: hyperledger/fabric-orderer:latest
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
       - ORDERER_HOST=orderer1-org0
@@ -193,7 +193,7 @@ services:
 
   orderer2-org0:
     container_name: orderer2-org0
-    image: hyperledger/fabric-orderer:latest
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
       - ORDERER_HOST=orderer2-org0
@@ -226,7 +226,7 @@ services:
       
   orderer3-org0:
     container_name: orderer3-org0
-    image: hyperledger/fabric-orderer:latest
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
       - ORDERER_HOST=orderer3-org0
