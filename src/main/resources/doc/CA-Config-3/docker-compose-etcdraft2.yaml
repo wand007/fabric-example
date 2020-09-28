@@ -86,7 +86,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer2
     volumes:
       - /var/run:/host/var/run
-      - ./crypto-config/org1/peer2:/usr/local/home/org1/peer2
+      - ./crypto-config:/usr/local/home
     networks:
       - byfn
     ports:
@@ -120,7 +120,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer1
     volumes:
       - /var/run:/host/var/run
-      - ./crypto-config/org2/peer1:/usr/local/home/org2/peer1
+      - ./crypto-config:/usr/local/home
     networks:
       - byfn
     ports:
@@ -153,7 +153,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer2
     volumes:
       - /var/run:/host/var/run
-      - ./crypto-config/org2/peer2:/usr/local/home/org2/peer2
+      - ./crypto-config:/usr/local/home
     networks:
       - byfn
     ports:
@@ -169,7 +169,7 @@ services:
       - ORDERER_GENERAL_LISTENPORT=7050
       - ORDERER_GENERAL_GENESISMETHOD=file    
     # 创世区块路径
-      - ORDERER_GENERAL_GENESISFILE=/usr/local/home/configtx/block/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer1-org0/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
@@ -187,8 +187,8 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
-      - ./crypto-config/org0:/usr/local/home/org0
-      - ./channel-artifacts:/usr/local/home/configtx/block
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
       - orderer1-org0:/usr/local/home/orderer
     ports:
       - 7050:7050
@@ -204,7 +204,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/usr/local/home/configtx/block/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer2-org0/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
@@ -222,8 +222,8 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
-      - ./crypto-config/org0:/usr/local/home/org0
-      - ./channel-artifacts:/usr/local/home/configtx/block
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
       - orderer2-org0:/usr/local/home/orderer
     ports:
       - 8050:8050
@@ -239,7 +239,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/usr/local/home/configtx/block/genesis.block
+      - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer3-org0/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
@@ -257,8 +257,8 @@ services:
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
-      - ./crypto-config/org0:/usr/local/home/org0
-      - ./channel-artifacts:/usr/local/home/configtx/block
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
       - orderer3-org0:/usr/local/home/orderer
     ports:
       - 9050:9050
