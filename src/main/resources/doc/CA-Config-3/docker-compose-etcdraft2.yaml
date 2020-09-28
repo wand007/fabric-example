@@ -53,7 +53,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer1
     volumes:
       - /var/run:/host/var/run
-      - ./crypto-config/org1/peer1:/usr/local/home/org1/peer1
+      - ./crypto-config:/usr/local/home
     networks:
       - byfn
     ports:
