@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+
 version: '2'
 
 volumes:
-  cli.peer1.org1:
-  cli.peer2.org1:
-  cli.peer1.org2:
-  cli.peer2.org2:
+  cli-org1-peer1:
+  cli-org1-peer2:
+  cli-org2-peer1:
+  cli-org2-peer2:
 
 networks:
   byfn:
@@ -18,121 +19,110 @@ networks:
 
 services:
 
-  cli.peer1.org1:
-    container_name: cli.peer1.org1
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+  cli-org1-peer1:
+    container_name: cli-org1-peer1
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_ID=cli.peer0.org1
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli-org1-peer1
       - CORE_PEER_ADDRESS=peer1-org1:7051
       - CORE_PEER_LOCALMSPID=org1MSP
       - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer1/tls-msp/signcerts/cert.pem
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org1/peer1/tls-msp/keystore/key.pem
-      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin/msp/
-      - ORDERER_CA=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
+    #    depends_on:
+    #      - peer1-org1
     volumes:
-      - /var/run/:/host/var/run/
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
       - ./crypto-config:/usr/local/home
-      - ./channel-artifacts:/usr/local/channel-artifacts
     networks:
       - byfn
 
 
-  cli.peer2.org1:
-    container_name: cli.peer2.org1
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+
+  cli-org1-peer2:
+    container_name: cli-org1-peer2
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_ID=cli.peer2.org1
-      - CORE_PEER_ADDRESS=peer2-org1:8051
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli-org1-peer2
+      - CORE_PEER_ADDRESS=peer2-org1:7051
       - CORE_PEER_LOCALMSPID=org1MSP
       - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer2/tls-msp/signcerts/cert.pem
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org1/peer2/tls-msp/keystore/key.pem
-      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin/msp/
-      - ORDERER_CA=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer2/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
+    #    depends_on:
+    #      - peer1-org1
     volumes:
-      - /var/run/:/host/var/run/
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
       - ./crypto-config:/usr/local/home
-      - ./channel-artifacts:/usr/local/channel-artifacts
     networks:
       - byfn
 
 
-  cli.peer1.org2:
-    container_name: cli.peer1.org2
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+  cli-org2-peer1:
+    container_name: cli-org2-peer1
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_ID=cli.peer1.org2
-      - CORE_PEER_ADDRESS=peer1-org2:9051
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli-org2-peer1
+      - CORE_PEER_ADDRESS=peer1-org2:7051
       - CORE_PEER_LOCALMSPID=org2MSP
       - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer1/tls-msp/signcerts/cert.pem
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org2/peer1/tls-msp/keystore/key.pem
-      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin/msp/
-      - ORDERER_CA=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer1/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
+    #    depends_on:
+    #      - peer1-org1
     volumes:
-      - /var/run/:/host/var/run/
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
       - ./crypto-config:/usr/local/home
-      - ./channel-artifacts:/usr/local/channel-artifacts
     networks:
       - byfn
 
 
-  cli.peer2.org2:
-    container_name: cli.peer2.org2
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+  cli-org2-peer2:
+    container_name: cli-org2-peer2
+    image: hyperledger/fabric-tools:latest
     tty: true
     stdin_open: true
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - FABRIC_LOGGING_SPEC=INFO
-      - CORE_PEER_ID=cli.peer2.org2
-      - CORE_PEER_ADDRESS=peer2-org2:10051
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli-org2-peer2
+      - CORE_PEER_ADDRESS=peer2-org2:7051
       - CORE_PEER_LOCALMSPID=org2MSP
       - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer2/tls-msp/signcerts/cert.pem
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org2/peer2/tls-msp/keystore/key.pem
-      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin/msp/
-      - ORDERER_CA=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer2/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
+    #    depends_on:
+    #      - peer1-org1
     volumes:
-      - /var/run/:/host/var/run/
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
       - ./crypto-config:/usr/local/home
-      - ./channel-artifacts:/usr/local/channel-artifacts
     networks:
       - byfn
