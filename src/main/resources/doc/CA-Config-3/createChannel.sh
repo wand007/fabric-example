@@ -9,26 +9,30 @@ peer channel create -o orderer1-org0:7050 -c mychannel -f /usr/local/channel-art
 
 exit
 
+# 加入通道
 docker exec -it cli-org1-peer1 bash
-# 加入通道
+
 peer channel join -b /usr/local/channel-artifacts/mychannel.block
 
 exit
 
+# 加入通道
 docker exec -it cli-org1-peer2 bash
-# 加入通道
+
 peer channel join -b /usr/local/channel-artifacts/mychannel.block
 
 exit
 
+# 加入通道
 docker exec -it cli-org2-peer1 bash
-# 加入通道
+
 peer channel join -b /usr/local/channel-artifacts/mychannel.block
 
 exit
 
-docker exec -it cli-org2-peer2 bash
 # 加入通道
+docker exec -it cli-org2-peer2 bash
+
 peer channel join -b /usr/local/channel-artifacts/mychannel.block
 
 exit
@@ -40,6 +44,7 @@ peer channel update -o orderer1-org0:7050 -c mychannel -f /usr/local/channel-art
 
 exit
 
+# 更新锚节点
 docker exec -it cli-org2-peer1 bash
 
 peer channel update -o orderer1-org0:7050 -c mychannel -f /usr/local/channel-artifacts/Org2MSPanchors.tx --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE
