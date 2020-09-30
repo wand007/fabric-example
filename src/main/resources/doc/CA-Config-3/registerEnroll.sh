@@ -9,6 +9,8 @@ docker-compose -f docker-compose-ca.yaml  down --volumes --remove-orphans
 ## docker ps -a|awk '{print $1}'|xargs -i docker stop {}
 ## docker ps -a|awk '{print $1}'|xargs -i docker rm {}
 
+## docker rm -f $(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
+
 ## export PWD=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca
 
 ## 启动CA服务
