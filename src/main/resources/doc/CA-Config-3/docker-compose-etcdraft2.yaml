@@ -38,6 +38,7 @@ services:
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer2-org1:8051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1-org1:7051
       - CORE_PEER_LOCALMSPID=org1MSP
+      - CORE_PEER_TLS_ENABLED=true
       # msp证书路径
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1/msp
       # tls签名证书路径
@@ -50,7 +51,6 @@ services:
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
-      - CORE_PEER_TLS_ENABLED=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer1
     volumes:
       - /var/run:/host/var/run
@@ -197,8 +197,6 @@ services:
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
-      - ORDERER_KAFKA_VERBOSE=true
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer1-org0/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer1-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
@@ -223,6 +221,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
       - ORDERER_GENERAL_GENESISMETHOD=file
+      # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer2-org0/msp
@@ -232,8 +231,6 @@ services:
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer2-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
-      - ORDERER_KAFKA_VERBOSE=true
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer2-org0/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer2-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
@@ -258,6 +255,7 @@ services:
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
       - ORDERER_GENERAL_GENESISMETHOD=file
+      # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer3-org0/msp
@@ -267,8 +265,6 @@ services:
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer3-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
-      - ORDERER_KAFKA_VERBOSE=true
       - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer3-org0/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer3-org0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
