@@ -42,11 +42,11 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
-    #    depends_on:
-    #      - peer1-org1
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
 
@@ -75,11 +75,11 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
-    #    depends_on:
-    #      - peer1-org1
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
 
@@ -107,11 +107,11 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
-    #    depends_on:
-    #      - peer1-org1
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
 
@@ -139,10 +139,10 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
-    #    depends_on:
-    #      - peer1-org1
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
