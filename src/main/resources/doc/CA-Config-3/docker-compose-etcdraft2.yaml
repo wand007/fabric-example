@@ -182,7 +182,7 @@ services:
     container_name: orderer1-org0
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
-      - ORDERER_HOME=/usr/local/home/orderer
+      - ORDERER_HOME=/usr/local/home
       - ORDERER_HOST=orderer1-org0
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=7050
@@ -206,7 +206,6 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer1-org0:/usr/local/home/orderer
     ports:
       - 7050:7050
     networks:
@@ -216,7 +215,7 @@ services:
     container_name: orderer2-org0
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
-      - ORDERER_HOME=/usr/local/home/orderer
+      - ORDERER_HOME=/usr/local/home
       - ORDERER_HOST=orderer2-org0
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
@@ -240,7 +239,6 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer2-org0:/usr/local/home/orderer
     ports:
       - 8050:8050
     networks:
@@ -250,7 +248,7 @@ services:
     container_name: orderer3-org0
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
-      - ORDERER_HOME=/usr/local/home/orderer
+      - ORDERER_HOME=/usr/local/home
       - ORDERER_HOST=orderer3-org0
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
@@ -274,7 +272,6 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer3-org0:/usr/local/home/orderer
     ports:
       - 9050:9050
     networks:
