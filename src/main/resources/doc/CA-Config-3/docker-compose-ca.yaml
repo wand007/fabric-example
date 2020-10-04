@@ -1,7 +1,7 @@
 version: '2'
 
 volumes:
-  root.ca.example.com:
+  ca-tls.ca.example.com:
   ca-org0.ca.example.com:
   ca-org1.ca.example.com:
   ca-org2.ca.example.com:
