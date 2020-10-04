@@ -1,10 +1,10 @@
 version: '2'
 
 volumes:
-  root.ca.example.com:
-  orderer.ca.example.com:
-  org1.ca.example.com:
-  org2.ca.example.com:
+  ca-tls.ca.example.com:
+  ca-org0.ca.example.com:
+  ca-org1.ca.example.com:
+  ca-org2.ca.example.com:
 
 networks:
   byfn:
@@ -36,21 +36,21 @@ services:
       - byfn
     ports:
       - 7052:7054
-  # orderer所在组织的ca服务端,用于为order所在的组织内所有成员,注册生成msp证书包括admin证书,此处的admin和org0-admin不是一个概念
-  ca_orderer:
-    container_name: ca_orderer
+  # order所在组织的ca服务端,用于为order所在的组织内所有成员,注册生成msp证书包括admin证书,此处的admin和org0-admin不是一个概念
+  ca-org0:
+    container_name: ca-org0
     image: hyperledger/fabric-ca
     command: sh -c 'fabric-ca-server start -d -b org0-admin:org0-adminpw'
     environment:
       - FABRIC_CA_SERVER_HOME=/usr/local/home/org0/ca/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_CSR_CN=ca_orderer
+      - FABRIC_CA_SERVER_CSR_CN=ca-org0
       - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0
       - FABRIC_CA_SERVER_PORT=7054
       - FABRIC_CA_SERVER_DEBUG=true
     volumes:
       # 容器启动后在宿主机/usr/local/home/org0/ca/crypto目录下,生成 crypto文件夹并获取order所在组织ca服务端的根证书
-      - ./crypto-config/orderer/ca:/usr/local/home/orderer/ca
+      - ./crypto-config/org0/ca:/usr/local/home/org0/ca
     networks:
       - byfn
     ports:
