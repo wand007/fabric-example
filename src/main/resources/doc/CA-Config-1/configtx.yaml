@@ -19,13 +19,13 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org0MSP
+        Name: OrdererOrg
 
         # ID to load the MSP definition as
-        ID: Org0MSP
+        ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: ./crypto-config/configtx/org0/msp
+        MSPDir: ./crypto-config/ordererOrganizations/example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -33,16 +33,16 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org0MSP.member')"
+                Rule: "OR('OrdererMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org0MSP.member')"
+                Rule: "OR('OrdererMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org0MSP.admin')"
+                Rule: "OR('OrdererMSP.admin')"
 
         OrdererEndpoints:
-            - org0-orderer1:7050
+            - orderer1.example.com:7050
 
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -52,7 +52,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org1MSP
 
-        MSPDir: ./crypto-config/configtx/org1/msp
+        MSPDir: ./crypto-config/peerOrganizations/org1.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -76,7 +76,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer1-org1
+            - Host: peer0.org1.example.com
               Port: 7051
 
     - &Org2
@@ -87,7 +87,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org2MSP
 
-        MSPDir: ./crypto-config/configtx/org2/msp
+        MSPDir: ./crypto-config/peerOrganizations/org2.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -110,7 +110,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer1-org2
+            - Host: peer0.org2.example.com
               Port: 9051
 
 ################################################################################
@@ -321,22 +321,32 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: org0-orderer1
+                - Host: orderer1.example.com
                   Port: 7050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer1/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer1/tls-msp/signcerts/cert.pem
-                - Host: org0-orderer2
+                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
+                - Host: orderer2.example.com
                   Port: 8050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer2/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer2/tls-msp/signcerts/cert.pem
-                - Host: org0-orderer3
+                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
+                - Host: orderer3.example.com
                   Port: 9050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer3/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer3/tls-msp/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
+                - Host: orderer4.example.com
+                  Port: 10050
+                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
+                - Host: orderer5.example.com
+                  Port: 11050
+                  ClientTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
             Addresses:
-                - org0-orderer1:7050
-                - org0-orderer2:8050
-                - org0-orderer3:9050
+                - orderer1.example.com:7050
+                - orderer2.example.com:8050
+                - orderer3.example.com:9050
+                - orderer4.example.com:10050
+                - orderer5.example.com:11050
 
             Organizations:
             - *OrdererOrg
