@@ -1,433 +1,360 @@
-工作目录,除非特殊说明，一般命令的执行都是在工作目录进行。
-cd $GOPATH/src/github.com/hyperledger/fabric-samples/first
+#!/bin/bash
+## 工作目录,除非特殊说明，一般命令的执行都是在工作目录进行。
+## cd $GOPATH/src/github.com/hyperledger/fabric-samples/first
 
-首次运行清除docker影响
+## 首次运行清除docker影响
 
- docker-compose -f docker-compose-ca-root.yaml  down --volumes --remove-orphans
+docker-compose -f docker-compose-ca.yaml  down --volumes --remove-orphans
 
+## docker ps -a|awk '{print $1}'|xargs -i docker stop {}
+## docker ps -a|awk '{print $1}'|xargs -i docker rm {}
 
-fabric 网络搭建
-CA 安装
+## docker rm -f $(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
 
-tls-ca
-创建目录
-(一)【docker】方式运行RootCA
+## export PWD=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca
 
- docker-compose -f docker-compose-ca-root.yaml up -d 2>&1
+## 启动CA服务
+docker-compose -f docker-compose-ca.yaml up -d 2>&1
 
-进入容器
-docker exec -it root.ca.example.com bash
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/tls-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./admin
+## 登陆
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/tls-ca/admin
+fabric-ca-client enroll -d -u https://tls-ca-admin:tls-ca-adminpw@0.0.0.0:7052
 
-fabric-ca-client enroll -d -u https://root-admin:root-adminpw@root.ca.example.com:7054
-此时有新的问及那目录生成
 
+## 添加联盟成员
+fabric-ca-client affiliation list -u https://0.0.0.0:7052
+fabric-ca-client affiliation remove --force org1 -u https://0.0.0.0:7052
+fabric-ca-client affiliation remove --force org2 -u https://0.0.0.0:7052
+fabric-ca-client affiliation add com -u https://0.0.0.0:7052
+fabric-ca-client affiliation add com.example -u https://0.0.0.0:7052
+fabric-ca-client affiliation add com.example.org1 -u https://0.0.0.0:7052
+fabric-ca-client affiliation add com.example.org2 -u https://0.0.0.0:7052
+fabric-ca-client affiliation list -u https://0.0.0.0:7052
 
-2） 添加联盟成员
-fabric-ca-client affiliation list -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation remove --force org1 -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation remove --force org2 -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation add com -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation add com.example -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation add com.example.org1 -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client affiliation add com.example.org2 -u https://root-admin:root-adminpw@root.ca.example.com:7054
 
-注册TLS CA的管理员
-fabric-ca-client register --id.name peer0.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org1pw --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name peer1.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org1pw --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name peer0.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org2pw --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name peer1.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org2pw --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
-fabric-ca-client register --id.name orderer.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordererpw --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com'] -u https://root-admin:root-adminpw@root.ca.example.com:7054
+## 注册
+# 为各个组件(组件指的是 peer,order和管理员)注册TLS证书,仅仅是注册了身份,并没有获取到证书;
+fabric-ca-client register -d --id.name peer1.org1.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer2.org1.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer2.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer1.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer2.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer3.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer4.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer5.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 
 
-退出容器 exit
 
-使用在TLS CA上注册的身份，我们可以继续建立每个组织的网络。每当我们需要为组织中的节点获取TLS证书时，我们都将引用此CA。
 
+## 登录
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/ca/admin
+fabric-ca-client enroll -d -u https://org0-admin:org0-adminpw@0.0.0.0:7053
 
+## 注册
+fabric-ca-client register -d --id.name orderer1.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer2.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer3.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer4.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer5.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name admin-org0 --id.secret org0adminpw --id.type admin --id.attrs "hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" -u https://0.0.0.0:7053
 
 
 
 
+## 登录
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/ca/admin
+fabric-ca-client enroll -d -u https://org1-admin:org1-adminpw@0.0.0.0:7054
 
+## 注册
+fabric-ca-client register -d --id.name peer1.org1.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7054
+fabric-ca-client register -d --id.name peer2.org1.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7054
+fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7054
 
 
- (二)【docker】方式运行ordererCA
 
-docker-compose -f docker-compose-ca-orderer.yaml up -d 2>&1
 
-# 在下面的命令中，我们将CA的ROOT证书的受信任根证书已复制到 ./fabric-ca-server/intermediaca1/root-ca-cert.pem 存在fabric-ca-client二进制文件的主机上。如果客户端二进制文件位于其他主机上，则需要通过带外过程获取签名证书。
- cp ./organizations/rootOrganizations/root.example.com/ca/ca-cert.pem ./organizations/ordererOrganizations/example.com/ca/root-ca-cert.pem
 
-1. 生成example.com的msp
+## 登录
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/ca/admin
+fabric-ca-client enroll -d -u https://org2-admin:org2-adminpw@0.0.0.0:7055
 
-进入容器
-docker exec -it orderer.ca.example.com bash
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./msp
-fabric-ca-client enroll -d -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055 --caname ca-orderer
+## 注册
+fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7055
+fabric-ca-client register -d --id.name peer2.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7055
+fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7055
 
-2） 添加联盟成员
-fabric-ca-client affiliation list -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-fabric-ca-client affiliation remove --force org1 -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-fabric-ca-client affiliation remove --force org2 -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-fabric-ca-client affiliation add com -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
-fabric-ca-client affiliation add com.example -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055
 
 
-2. 注册orderer
-1） 注册Admin@example.com
-fabric-ca-client register --id.name Admin@example.com --id.type admin --id.affiliation "com.example" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=ordereradminpw --csr.cn=example.com --csr.hosts=['example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055  --caname ca-orderer
+## 通过客户端为所有节点生成msp证书和tls证书
 
-4） 注册orderer.example.com
-fabric-ca-client register --id.name orderer.example.com --id.type orderer --id.affiliation "com.example" --id.attrs '"role=orderer",ecert=true' --id.secret=ordererpw --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com'] -u https://orderer-admin:orderer-adminpw@orderer.ca.example.com:7055  --caname ca-orderer
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://peer1.org1.example.com:peer1PW@0.0.0.0:7054
 
-2） 登记Admin@example.com的msp
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@example.com/msp
-fabric-ca-client enroll -u https://Admin@example.com:ordereradminpw@orderer.ca.example.com:7055 --caname ca-orderer --csr.cn=example.com --csr.hosts=['example.com']
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/peer1
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://peer1.org1.example.com:peer1PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org1.example.com
 
-3. 生成orderer.example.com的msp和tls
 
+mv $PWD/crypto-config/org1/peer1/tls-msp/keystore/*_sk $PWD/crypto-config/org1/peer1/tls-msp/keystore/key.pem
 
-2） 登记orderer.example.com的msp
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer.example.com/msp
-fabric-ca-client enroll -u https://orderer.example.com:ordererpw@orderer.ca.example.com:7055  --caname ca-orderer --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com']
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/peer2
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://peer2.org1.example.com:peer2PW@0.0.0.0:7054
 
-1） 登记orderer.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./orderers/orderer.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://orderer.example.com:ordererpw@root.ca.example.com:7054 --csr.cn=orderer.example.com --csr.hosts=['orderer.example.com']
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/peer2
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://peer2.org1.example.com:peer2PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer2.org1.example.com
 
-1)  复制证书
+mv $PWD/crypto-config/org1/peer2/tls-msp/keystore/*_sk  $PWD/crypto-config/org1/peer2/tls-msp/keystore/key.pem
 
 
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/signcerts/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/keystore/* ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/key.pem
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org1/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://admin.org1.example.com:org1AdminPW@0.0.0.0:7054
 
 
-mkdir -p ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/admincerts
-cp ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/admincerts/
-mkdir -p ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/ ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/admin
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://admin.org1.example.com:org1AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts admin.org1.example.com
 
 
+mv $PWD/crypto-config/org1/admin/tls-msp/keystore/*_sk $PWD/crypto-config/org1/admin/tls-msp/keystore/key.pem
 
-mkdir -p ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts
-cp ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts/cert.pem ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/admincerts/
-mkdir -p ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/tlscacerts
-cp ./organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/tlscacerts/* ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/tlscacerts/
-cp ./config.yaml ./organizations/ordererOrganizations/example.com/users/Admin@example.com/msp/
+mkdir -p $PWD/crypto-config/org1/peer1/msp/admincerts
+cp $PWD/crypto-config/org1/admin/msp/signcerts/cert.pem $PWD/crypto-config/org1/peer1/msp/admincerts/org1-admin-cert.pem
+mkdir -p $PWD/crypto-config/org1/peer2/msp/admincerts
+cp $PWD/crypto-config/org1/admin/msp/signcerts/cert.pem $PWD/crypto-config/org1/peer2/msp/admincerts/org1-admin-cert.pem
 
 
 
-mkdir -p ./crypto-config/ordererOrganizations/example.com/msp
-cp -r ./organizations/ordererOrganizations/example.com/users/Admin@example.com/* ./crypto-config//ordererOrganizations/example.com/
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/peer1
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://peer1.org2.example.com:peer1PW@0.0.0.0:7055
 
 
-(三)【docker】方式运行org1CA
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/peer1
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://peer1.org2.example.com:peer1PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org2.example.com
 
-docker-compose -f docker-compose-ca-org1.yaml up -d 2>&1
 
-# 在下面的命令中，我们将CA的ROOT证书的受信任根证书已复制到 ./fabric-ca-server/intermediaca1/root-ca-cert.pem 存在fabric-ca-client二进制文件的主机上。如果客户端二进制文件位于其他主机上，则需要通过带外过程获取签名证书。
-cp ./organizations/rootOrganizations/root.example.com/ca/ca-cert.pem ./organizations/peerOrganizations/org1.example.com/ca/root-ca-cert.pem
+mv $PWD/crypto-config/org2/peer1/tls-msp/keystore/*_sk $PWD/crypto-config/org2/peer1/tls-msp/keystore/key.pem
 
-1. 生成org1.example.com的msp
 
-进入容器
-docker exec -it org1.ca.example.com bash
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/peer2
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://peer2.org2.example.com:peer2PW@0.0.0.0:7055
 
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./admin
-fabric-ca-client enroll -d -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
 
-2） 添加联盟成员
-fabric-ca-client affiliation list -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
-fabric-ca-client affiliation remove --force org1 -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
-fabric-ca-client affiliation remove --force org2 -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
-fabric-ca-client affiliation add com -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
-fabric-ca-client affiliation add com.example -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
-fabric-ca-client affiliation add com.example.org1 -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/peer2
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://peer2.org2.example.com:peer2PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer2.org2.example.com
 
-1. 生成example.com的msp
-3） 注册Admin@example.com
-fabric-ca-client register --id.name Admin@org1.example.com --id.type admin  --id.affiliation "com.example.org1" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=org1adminpw --csr.cn=org1.example.com --csr.hosts=['org1.example.com'] -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056 --caname ca-org1
+mv $PWD/crypto-config/org2/peer2/tls-msp/keystore/*_sk $PWD/crypto-config/org2/peer2/tls-msp/keystore/key.pem
 
-1） 注册User1@org1.example.com
-fabric-ca-client register --id.name User1@org1.example.com --id.type client  --id.affiliation "com.example.org1" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=org1userpw --csr.cn=org1.example.com --csr.hosts=['org1.example.com'] -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056 --caname ca-org1
 
-1） 注册peer0.org1.example.com
-fabric-ca-client register --id.name peer0.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org1pw --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com'] -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056 --caname ca-org1
 
-1） 注册peer1.org1.example.com
-fabric-ca-client register --id.name peer1.org1.example.com --id.type peer --id.affiliation "com.example.org1" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org1pw --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com'] -u https://org1-admin:org1-adminpw@org1.ca.example.com:7056 --caname ca-org1
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org2/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7055
 
-3） 登记Admin@example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@org1.example.com/msp
-fabric-ca-client enroll -u https://Admin@org1.example.com:org1adminpw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=org1.example.com --csr.hosts=['org1.example.com']
 
 
-1） 登记User1@org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./users/User1@org1.example.com/msp
-fabric-ca-client enroll -u https://User1@org1.example.com:org1userpw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=org1.example.com --csr.hosts=['org1.example.com']
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/admin
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer2.org2.example.com
 
-3. 生成peer0.org1.example.com的msp和tls
+mv $PWD/crypto-config/org2/admin/tls-msp/keystore/*_sk $PWD/crypto-config/org2/admin/tls-msp/keystore/key.pem
+mkdir -p $PWD/crypto-config/org2/peer1/msp/admincerts
+cp $PWD/crypto-config/org2/admin/msp/signcerts/cert.pem $PWD/crypto-config/org2/peer1/msp/admincerts/org2-admin-cert.pem
+mkdir -p $PWD/crypto-config/org2/peer2/msp/admincerts
+cp $PWD/crypto-config/org2/admin/msp/signcerts/cert.pem $PWD/crypto-config/org2/peer2/msp/admincerts/org2-admin-cert.pem
 
 
-1） 登记peer0.org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org1.example.com/msp
-fabric-ca-client enroll -u https://peer0.org1.example.com:peer0org1pw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com']
+## org0内的orderer节点制作证书
 
-1） 登记peer0.org1.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org1.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org1.example.com:peer0org1pw@root.ca.example.com:7054 --csr.cn=peer0.org1.example.com --csr.hosts=['peer0.org1.example.com']
+mkdir -p $PWD/crypto-config/org0/orderers
 
 
-1） 复制证书
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1.example.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://orderer1.example.com:ordererpw@0.0.0.0:7053
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/admincerts
-cp ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/admincerts
-mkdir -p ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/tlscacerts
-cp ./config.yaml ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1.example.com
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://orderer1.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer1.example.com
 
-mkdir -p ./crypto-config/peerOrganizations/org1.example.com/msp
-cp -r ./organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/* ./crypto-config/peerOrganizations/org1.example.com/
 
 
+mv $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/keystore/key.pem
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/admin
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://admin-org0:org0adminpw@0.0.0.0:7053
 
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/signcerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/keystore/* ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/key.pem
 
+mkdir $PWD/crypto-config/org0/orderers/orderer1.example.com/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer1.example.com/msp/admincerts/orderer-admin-cert.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts
-cp -r ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/admincerts
-mkdir -p ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts
 
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2.example.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://orderer2.example.com:ordererpw@0.0.0.0:7053
 
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2.example.com
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://orderer2.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer2.example.com
 
 
+mv $PWD/crypto-config/org0/orderers/orderer2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer2.example.com/tls-msp/keystore/key.pem
 
+mkdir $PWD/crypto-config/org0/orderers/orderer2.example.com/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer2.example.com/msp/admincerts/orderer-admin-cert.pem
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3.example.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://orderer3.example.com:ordererpw@0.0.0.0:7053
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3.example.com
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://orderer3.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer3.example.com
 
 
+mv $PWD/crypto-config/org0/orderers/orderer3.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer3.example.com/tls-msp/keystore/key.pem
 
+mkdir $PWD/crypto-config/org0/orderers/orderer3.example.com/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer3.example.com/msp/admincerts/orderer-admin-cert.pem
 
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4.example.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://orderer4.example.com:ordererpw@0.0.0.0:7053
 
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4.example.com
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://orderer4.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer4.example.com
 
 
+mv $PWD/crypto-config/org0/orderers/orderer4.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer4.example.com/tls-msp/keystore/key.pem
 
-3. 生成peer1.org1.example.com的msp和tls
+mkdir $PWD/crypto-config/org0/orderers/orderer4.example.com/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer4.example.com/msp/admincerts/orderer-admin-cert.pem
 
 
-1） 登记peer1.org1.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org1.example.com/msp
-fabric-ca-client enroll -u https://peer1.org1.example.com:peer1org1pw@org1.ca.example.com:7056 --caname ca-org1 --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com']
 
-1） 登记peer1.org1.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org1.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org1.example.com:peer1org1pw@root.ca.example.com:7054 --csr.cn=peer1.org1.example.com --csr.hosts=['peer1.org1.example.com']
 
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5.example.com
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_MSPDIR=msp
+fabric-ca-client enroll -d -u https://orderer5.example.com:ordererpw@0.0.0.0:7053
 
-1） 复制证书
-mkdir -p organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com
 
-cp ./config.yaml ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/config.yaml
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5.example.com
+export FABRIC_CA_CLIENT_MSPDIR=tls-msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
+fabric-ca-client enroll -d -u https://orderer5.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer5.example.com
 
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/signcerts/* ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/keystore/* ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/key.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/msp/tlscacerts/
+mv $PWD/crypto-config/org0/orderers/orderer5.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer5.example.com/tls-msp/keystore/key.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/tlsca
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+mkdir $PWD/crypto-config/org0/orderers/orderer5.example.com/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer5.example.com/msp/admincerts/orderer-admin-cert.pem
 
-mkdir -p ./organizations/peerOrganizations/org1.example.com/ca
-cp ./organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/cacerts/* ./organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
 
 
+cp ./orderer-config/config.yaml ./crypto-config/org0/admin/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer1.example.com/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer2.example.com/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer3.example.com/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer4.example.com/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer5.example.com/msp/
 
+cp ./org1-config/config.yaml ./crypto-config/org1/admin/msp/
+cp ./org1-config/config.yaml ./crypto-config/org1/peer1/msp/
+cp ./org1-config/config.yaml ./crypto-config/org1/peer2/msp/
 
+cp ./org2-config/config.yaml ./crypto-config/org2/admin/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/peer1/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/peer2/msp/
 
-(四)【docker】方式运行org2CA
 
-docker-compose -f docker-compose-ca-org2.yaml up -d 2>&1
+## org0的admin证书
 
-# 在下面的命令中，我们将CA的ROOT证书的受信任根证书已复制到 ./fabric-ca-server/intermediaca1/root-ca-cert.pem 存在fabric-ca-client二进制文件的主机上。如果客户端二进制文件位于其他主机上，则需要通过带外过程获取签名证书。
-cp ./organizations/rootOrganizations/root.example.com/ca/ca-cert.pem ./organizations/peerOrganizations/org2.example.com/ca/root-ca-cert.pem
+mkdir -p $PWD/crypto-config/configtx/org0
+cp -r $PWD/crypto-config/org0/admin/msp $PWD/crypto-config/configtx/org0
 
-1. 生成org2.example.com的msp
+mkdir $PWD/crypto-config/configtx/org0/msp/tlscacerts
+cp  $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem  $PWD/crypto-config/configtx/org0/msp/tlscacerts
 
-进入容器
-docker exec -it org2.ca.example.com bash
+## org1的admin证书
+mkdir -p $PWD/crypto-config/configtx/org1
+cp -r $PWD/crypto-config/org1/admin/msp $PWD/crypto-config/configtx/org1/
 
+mkdir -p $PWD/crypto-config/configtx/org1/msp/tlscacerts
+cp $PWD/crypto-config/org1/admin/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/configtx/org1/tlscacerts
 
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./admin
-fabric-ca-client enroll -d -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
+## org2的admin证书
+mkdir -p $PWD/crypto-config/configtx/org2
+cp -r $PWD/crypto-config/org2/admin/msp $PWD/crypto-config/configtx/org2/
 
-2） 添加联盟成员
-fabric-ca-client affiliation list -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
-fabric-ca-client affiliation remove --force org1 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
-fabric-ca-client affiliation remove --force org2 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7055
-fabric-ca-client affiliation add com -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
-fabric-ca-client affiliation add com.example -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
-fabric-ca-client affiliation add com.example.org2 -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057
+mkdir -p $PWD/crypto-config/configtx/org2/msp/tlscacerts
+cp $PWD/crypto-config/org2/admin/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/configtx/org2/tlscacerts
 
-1. 生成example.com的msp
-3） 注册Admin@example.com
-fabric-ca-client register --id.name Admin@org2.example.com --id.type admin  --id.affiliation "com.example.org2" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=org2adminpw --csr.cn=org2.example.com --csr.hosts=['org2.example.com'] -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057 --caname ca-org2
 
-1） 注册User1@org2.example.com
-fabric-ca-client register --id.name User1@org2.example.com --id.type client  --id.affiliation "com.example.org2" --id.attrs '"hf.Registrar.Roles=client,orderer,peer,user","hf.Registrar.DelegateRoles=client,orderer,peer,user",hf.Registrar.Attributes=*,hf.GenCRL=true,hf.Revoker=true,hf.AffiliationMgr=true,hf.IntermediateCA=true,role=admin:ecert' --id.secret=org2userpw --csr.cn=org2.example.com --csr.hosts=['org2.example.com'] -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057 --caname ca-org2
 
-1） 注册peer0.org2.example.com
-fabric-ca-client register --id.name peer0.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer0org2pw --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com'] -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057 --caname ca-org2
+configtxgen -profile SampleMultiNodeEtcdRaft -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg Org1MSP
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg Org2MSP
 
-1） 注册peer1.org2.example.com
-fabric-ca-client register --id.name peer1.org2.example.com --id.type peer --id.affiliation "com.example.org2" --id.attrs '"role=peer",ecert=true' --id.secret=peer1org2pw --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com'] -u https://org2-admin:org2-adminpw@org2.ca.example.com:7057 --caname ca-org2
-
-3） 登记Admin@example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./users/Admin@org2.example.com/msp
-fabric-ca-client enroll -u https://Admin@org2.example.com:org2adminpw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=org2.example.com --csr.hosts=['org2.example.com']
-
-
-1） 登记User1@org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./users/User1@org2.example.com/msp
-fabric-ca-client enroll -u https://User1@org2.example.com:org2userpw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=org2.example.com --csr.hosts=['org2.example.com']
-
-3. 生成peer0.org2.example.com的msp和tls
-
-
-1） 登记peer0.org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org2.example.com/msp
-fabric-ca-client enroll -u https://peer0.org2.example.com:peer0org2pw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com']
-
-1） 登记peer0.org2.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer0.org2.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://peer0.org2.example.com:peer0org2pw@root.ca.example.com:7054 --csr.cn=peer0.org2.example.com --csr.hosts=['peer0.org2.example.com']
-
-
-1） 复制证书
-mkdir -p ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
-cp ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/admincerts
-mkdir -p ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/tlscacerts
-cp ./config.yaml ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/
-
-
-
-mkdir -p ./crypto-config/peerOrganizations/org2.example.com/msp
-cp -r ./organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/* ./crypto-config/peerOrganizations/org2.example.com/
-
-
-
-
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/keystore/* ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/key.pem
-
-
-mkdir -p ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
-cp -r ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/signcerts/cert.pem ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/admincerts
-mkdir -p ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/tlscacerts/tls-root-ca-example-com-7054.pem ./organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts
-
-
-3. 生成peer1.org2.example.com的msp和tls
-
-
-1） 登记peer1.org2.example.com的mps
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org2.example.com/msp
-fabric-ca-client enroll -u https://peer1.org2.example.com:peer1org2pw@org2.ca.example.com:7057 --caname ca-org2 --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com']
-
-1） 登记peer1.org2.example.com的tls
-export FABRIC_CA_CLIENT_TLS_CERTFILES=/etc/hyperledger/fabric-ca-server/ca/root-ca-cert.pem
-export FABRIC_CA_CLIENT_HOME=/etc/hyperledger/fabric-ca-server
-export FABRIC_CA_CLIENT_MSPDIR=./peers/peer1.org2.example.com/tls
-fabric-ca-client enroll -d --enrollment.profile tls -u https://peer1.org2.example.com:peer1org2pw@root.ca.example.com:7054 --csr.cn=peer1.org2.example.com --csr.hosts=['peer1.org2.example.com']
-
-
-1） 复制证书
-cp ./config.yaml ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/config.yaml
-
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/signcerts/* ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/keystore/* ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/key.pem
-
-mkdir -p ./organizations/peerOrganizations/org2.example.com/msp/tlscacerts
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/msp/tlscacerts/
-
-mkdir -p ./organizations/peerOrganizations/org2.example.com/tlsca
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/tlscacerts/* ./organizations/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
-
-mkdir -p ./organizations/peerOrganizations/org2.example.com/ca
-cp ./organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/cacerts/* ./organizations/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
-
-
-
-
-
-
-
+##  docker-compose -f docker-compose-etcdraft2.yaml up -d 2>&1
 
 
 
