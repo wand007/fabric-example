@@ -1,0 +1,461 @@
+./crypto-config/
+├── configtx
+│   ├── org0
+│   │   └── msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       │   └── 0-0-0-0-7053.pem
+│   │       ├── config.yaml
+│   │       ├── keystore
+│   │       │   └── 8f73234434581bdcc2dde30a53b34a3435da89ff18ee20a7a10396d1b7cf774d_sk
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       ├── tlscacerts
+│   │       │   └── tls-0-0-0-0-7052.pem
+│   │       └── user
+│   ├── org1
+│   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
+│   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7054.pem
+│   │   │   ├── config.yaml
+│   │   │   ├── keystore
+│   │   │   │   └── c4e700e78e3e9ff7a20405060300d3215a1ebb3295927c4408e10dee9117c1bf_sk
+│   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
+│   │   │   ├── tlscacerts
+│   │   │   └── user
+│   │   └── tlscacerts
+│   └── org2
+│       ├── msp
+│       │   ├── IssuerPublicKey
+│       │   ├── IssuerRevocationPublicKey
+│       │   ├── cacerts
+│       │   │   └── 0-0-0-0-7055.pem
+│       │   ├── config.yaml
+│       │   ├── keystore
+│       │   │   └── 28f1f58300ae9e4ff43224acdca0a91472c6987dd867a60c4691e96404304498_sk
+│       │   ├── signcerts
+│       │   │   └── cert.pem
+│       │   ├── tlscacerts
+│       │   └── user
+│       └── tlscacerts
+├── org0
+│   ├── admin
+│   │   ├── fabric-ca-client-config.yaml
+│   │   └── msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       │   └── 0-0-0-0-7053.pem
+│   │       ├── config.yaml
+│   │       ├── keystore
+│   │       │   └── 8f73234434581bdcc2dde30a53b34a3435da89ff18ee20a7a10396d1b7cf774d_sk
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       └── user
+│   ├── ca
+│   │   ├── admin
+│   │   │   ├── fabric-ca-client-config.yaml
+│   │   │   └── tls-msp
+│   │   │       ├── IssuerPublicKey
+│   │   │       ├── IssuerRevocationPublicKey
+│   │   │       ├── cacerts
+│   │   │       │   └── 0-0-0-0-7053.pem
+│   │   │       ├── keystore
+│   │   │       │   └── 178e567138da60594c5150891b326c6ac82286c9fbf5b4faafd7f4fcfc99c468_sk
+│   │   │       ├── signcerts
+│   │   │       │   └── cert.pem
+│   │   │       └── user
+│   │   └── crypto
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── ca-cert.pem
+│   │       ├── fabric-ca-server-config.yaml
+│   │       ├── fabric-ca-server.db
+│   │       ├── msp
+│   │       │   ├── cacerts
+│   │       │   ├── keystore
+│   │       │   │   ├── 5bdbab7f45a41a7163d07dd63ca4f61b5fe9617012d30e3890f3db3c65878130_sk
+│   │       │   │   ├── IssuerRevocationPrivateKey
+│   │       │   │   ├── IssuerSecretKey
+│   │       │   │   └── dbc71b189a4432c1283043db6e94adfb9c41d089b22fe398122c5fe8f84965e4_sk
+│   │       │   ├── signcerts
+│   │       │   └── user
+│   │       └── tls-cert.pem
+│   └── orderers
+│       ├── orderer1-org0
+│       │   ├── fabric-ca-client-config.yaml
+│       │   ├── msp
+│       │   │   ├── IssuerPublicKey
+│       │   │   ├── IssuerRevocationPublicKey
+│       │   │   ├── admincerts
+│       │   │   │   └── orderer-admin-cert.pem
+│       │   │   ├── cacerts
+│       │   │   │   └── 0-0-0-0-7053.pem
+│       │   │   ├── config.yaml
+│       │   │   ├── keystore
+│       │   │   │   └── add3c2a1c061c230361cfb6418092e773cd754a3cb9763d7d2f03cfa0a444165_sk
+│       │   │   ├── signcerts
+│       │   │   │   └── cert.pem
+│       │   │   └── user
+│       │   └── tls-msp
+│       │       ├── IssuerPublicKey
+│       │       ├── IssuerRevocationPublicKey
+│       │       ├── cacerts
+│       │       ├── keystore
+│       │       │   └── key.pem
+│       │       ├── signcerts
+│       │       │   └── cert.pem
+│       │       ├── tlscacerts
+│       │       │   └── tls-0-0-0-0-7052.pem
+│       │       └── user
+│       ├── orderer2-org0
+│       │   ├── fabric-ca-client-config.yaml
+│       │   ├── msp
+│       │   │   ├── IssuerPublicKey
+│       │   │   ├── IssuerRevocationPublicKey
+│       │   │   ├── admincerts
+│       │   │   │   └── orderer-admin-cert.pem
+│       │   │   ├── cacerts
+│       │   │   │   └── 0-0-0-0-7053.pem
+│       │   │   ├── config.yaml
+│       │   │   ├── keystore
+│       │   │   │   └── 2c373e3fb17ca3b69d301b960e16c15d01b1fdd4e5870ef94c03f2ef8fe2eea0_sk
+│       │   │   ├── signcerts
+│       │   │   │   └── cert.pem
+│       │   │   └── user
+│       │   └── tls-msp
+│       │       ├── IssuerPublicKey
+│       │       ├── IssuerRevocationPublicKey
+│       │       ├── cacerts
+│       │       ├── keystore
+│       │       │   └── key.pem
+│       │       ├── signcerts
+│       │       │   └── cert.pem
+│       │       ├── tlscacerts
+│       │       │   └── tls-0-0-0-0-7052.pem
+│       │       └── user
+│       ├── orderer3-org0
+│       │   ├── fabric-ca-client-config.yaml
+│       │   ├── msp
+│       │   │   ├── IssuerPublicKey
+│       │   │   ├── IssuerRevocationPublicKey
+│       │   │   ├── admincerts
+│       │   │   │   └── orderer-admin-cert.pem
+│       │   │   ├── cacerts
+│       │   │   │   └── 0-0-0-0-7053.pem
+│       │   │   ├── config.yaml
+│       │   │   ├── keystore
+│       │   │   │   └── ff2695f9cb3f30634aa6d4bfa04551d8ba485c672a74275b78b6ae3a47f40317_sk
+│       │   │   ├── signcerts
+│       │   │   │   └── cert.pem
+│       │   │   └── user
+│       │   └── tls-msp
+│       │       ├── IssuerPublicKey
+│       │       ├── IssuerRevocationPublicKey
+│       │       ├── cacerts
+│       │       ├── keystore
+│       │       │   └── key.pem
+│       │       ├── signcerts
+│       │       │   └── cert.pem
+│       │       ├── tlscacerts
+│       │       │   └── tls-0-0-0-0-7052.pem
+│       │       └── user
+│       ├── orderer4-org0
+│       │   ├── fabric-ca-client-config.yaml
+│       │   ├── msp
+│       │   │   ├── IssuerPublicKey
+│       │   │   ├── IssuerRevocationPublicKey
+│       │   │   ├── admincerts
+│       │   │   │   └── orderer-admin-cert.pem
+│       │   │   ├── cacerts
+│       │   │   │   └── 0-0-0-0-7053.pem
+│       │   │   ├── config.yaml
+│       │   │   ├── keystore
+│       │   │   │   └── 4f30ee7e06322af4d1ad28f875509cf57af3e626d3a788968d113be811abae20_sk
+│       │   │   ├── signcerts
+│       │   │   │   └── cert.pem
+│       │   │   └── user
+│       │   └── tls-msp
+│       │       ├── IssuerPublicKey
+│       │       ├── IssuerRevocationPublicKey
+│       │       ├── cacerts
+│       │       ├── keystore
+│       │       │   └── key.pem
+│       │       ├── signcerts
+│       │       │   └── cert.pem
+│       │       ├── tlscacerts
+│       │       │   └── tls-0-0-0-0-7052.pem
+│       │       └── user
+│       └── orderer5-org0
+│           ├── fabric-ca-client-config.yaml
+│           ├── msp
+│           │   ├── IssuerPublicKey
+│           │   ├── IssuerRevocationPublicKey
+│           │   ├── admincerts
+│           │   │   └── orderer-admin-cert.pem
+│           │   ├── cacerts
+│           │   │   └── 0-0-0-0-7053.pem
+│           │   ├── config.yaml
+│           │   ├── keystore
+│           │   │   └── fa409cdf78401b6e7dd73a52f819e9dbd1e266283bdf0e8aaaddf0e1a9783d9a_sk
+│           │   ├── signcerts
+│           │   │   └── cert.pem
+│           │   └── user
+│           └── tls-msp
+│               ├── IssuerPublicKey
+│               ├── IssuerRevocationPublicKey
+│               ├── cacerts
+│               ├── keystore
+│               │   └── key.pem
+│               ├── signcerts
+│               │   └── cert.pem
+│               ├── tlscacerts
+│               │   └── tls-0-0-0-0-7052.pem
+│               └── user
+├── org1
+│   ├── admin
+│   │   ├── fabric-ca-client-config.yaml
+│   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
+│   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7054.pem
+│   │   │   ├── config.yaml
+│   │   │   ├── keystore
+│   │   │   │   └── c4e700e78e3e9ff7a20405060300d3215a1ebb3295927c4408e10dee9117c1bf_sk
+│   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
+│   │   │   └── user
+│   │   └── tls-msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       ├── keystore
+│   │       │   └── key.pem
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       ├── tlscacerts
+│   │       │   └── tls-0-0-0-0-7052.pem
+│   │       └── user
+│   ├── ca
+│   │   ├── admin
+│   │   │   ├── fabric-ca-client-config.yaml
+│   │   │   └── tls-msp
+│   │   │       ├── IssuerPublicKey
+│   │   │       ├── IssuerRevocationPublicKey
+│   │   │       ├── cacerts
+│   │   │       │   └── 0-0-0-0-7054.pem
+│   │   │       ├── keystore
+│   │   │       │   └── 86f566899207646a1236dbdd564959f59ea500f1811eb14b6213dff11653bb1b_sk
+│   │   │       ├── signcerts
+│   │   │       │   └── cert.pem
+│   │   │       └── user
+│   │   └── crypto
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── ca-cert.pem
+│   │       ├── fabric-ca-server-config.yaml
+│   │       ├── fabric-ca-server.db
+│   │       ├── msp
+│   │       │   ├── cacerts
+│   │       │   ├── keystore
+│   │       │   │   ├── IssuerRevocationPrivateKey
+│   │       │   │   ├── IssuerSecretKey
+│   │       │   │   ├── b3fa23cb631545611d9d506ab9469cce7d153b9327e62cb41b38ae9697a447ad_sk
+│   │       │   │   └── b892114c24cb414501328c9ad71cbd0bd30d0046fbc654534c4118e7a6dc30cc_sk
+│   │       │   ├── signcerts
+│   │       │   └── user
+│   │       └── tls-cert.pem
+│   ├── peer1
+│   │   ├── fabric-ca-client-config.yaml
+│   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
+│   │   │   ├── admincerts
+│   │   │   │   └── org1-admin-cert.pem
+│   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7054.pem
+│   │   │   ├── config.yaml
+│   │   │   ├── keystore
+│   │   │   │   └── 1fec857b0dde8dd3e9fac1ac4606fa041137a2ee34175051481ddfa02723a468_sk
+│   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
+│   │   │   └── user
+│   │   └── tls-msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       ├── keystore
+│   │       │   └── key.pem
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       ├── tlscacerts
+│   │       │   └── tls-0-0-0-0-7052.pem
+│   │       └── user
+│   └── peer2
+│       ├── fabric-ca-client-config.yaml
+│       ├── msp
+│       │   ├── IssuerPublicKey
+│       │   ├── IssuerRevocationPublicKey
+│       │   ├── admincerts
+│       │   │   └── org1-admin-cert.pem
+│       │   ├── cacerts
+│       │   │   └── 0-0-0-0-7054.pem
+│       │   ├── config.yaml
+│       │   ├── keystore
+│       │   │   └── 41d3489345a8fcb39edaf6e7222704b0bdeef7d06d0b392f698341bc464b9081_sk
+│       │   ├── signcerts
+│       │   │   └── cert.pem
+│       │   └── user
+│       └── tls-msp
+│           ├── IssuerPublicKey
+│           ├── IssuerRevocationPublicKey
+│           ├── cacerts
+│           ├── keystore
+│           │   └── key.pem
+│           ├── signcerts
+│           │   └── cert.pem
+│           ├── tlscacerts
+│           │   └── tls-0-0-0-0-7052.pem
+│           └── user
+├── org2
+│   ├── admin
+│   │   ├── fabric-ca-client-config.yaml
+│   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
+│   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7055.pem
+│   │   │   ├── config.yaml
+│   │   │   ├── keystore
+│   │   │   │   └── 28f1f58300ae9e4ff43224acdca0a91472c6987dd867a60c4691e96404304498_sk
+│   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
+│   │   │   └── user
+│   │   └── tls-msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       ├── keystore
+│   │       │   └── key.pem
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       ├── tlscacerts
+│   │       │   └── tls-0-0-0-0-7052.pem
+│   │       └── user
+│   ├── ca
+│   │   ├── admin
+│   │   │   ├── fabric-ca-client-config.yaml
+│   │   │   └── tls-msp
+│   │   │       ├── IssuerPublicKey
+│   │   │       ├── IssuerRevocationPublicKey
+│   │   │       ├── cacerts
+│   │   │       │   └── 0-0-0-0-7055.pem
+│   │   │       ├── keystore
+│   │   │       │   └── 569b0f4a15b527925649a3d99dbd7754ea08893611ff9964f825e29ba04807d2_sk
+│   │   │       ├── signcerts
+│   │   │       │   └── cert.pem
+│   │   │       └── user
+│   │   └── crypto
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── ca-cert.pem
+│   │       ├── fabric-ca-server-config.yaml
+│   │       ├── fabric-ca-server.db
+│   │       ├── msp
+│   │       │   ├── cacerts
+│   │       │   ├── keystore
+│   │       │   │   ├── 271fe4e018a1c21d84189c57a636f89a14625036e23027b64b448dabebdb4b5e_sk
+│   │       │   │   ├── IssuerRevocationPrivateKey
+│   │       │   │   ├── IssuerSecretKey
+│   │       │   │   └── e195ee4c61edade9463aca4d141a84cfbc28c8d3629f7e34dccaa7330f506f24_sk
+│   │       │   ├── signcerts
+│   │       │   └── user
+│   │       └── tls-cert.pem
+│   ├── peer1
+│   │   ├── fabric-ca-client-config.yaml
+│   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
+│   │   │   ├── admincerts
+│   │   │   │   └── org2-admin-cert.pem
+│   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7055.pem
+│   │   │   ├── config.yaml
+│   │   │   ├── keystore
+│   │   │   │   └── dbc7d8f51a8de7a37e386c00252ed1e50def9b3a849845faf25dd358604a53d2_sk
+│   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
+│   │   │   └── user
+│   │   └── tls-msp
+│   │       ├── IssuerPublicKey
+│   │       ├── IssuerRevocationPublicKey
+│   │       ├── cacerts
+│   │       ├── keystore
+│   │       │   └── key.pem
+│   │       ├── signcerts
+│   │       │   └── cert.pem
+│   │       ├── tlscacerts
+│   │       │   └── tls-0-0-0-0-7052.pem
+│   │       └── user
+│   └── peer2
+│       ├── fabric-ca-client-config.yaml
+│       ├── msp
+│       │   ├── IssuerPublicKey
+│       │   ├── IssuerRevocationPublicKey
+│       │   ├── admincerts
+│       │   │   └── org2-admin-cert.pem
+│       │   ├── cacerts
+│       │   │   └── 0-0-0-0-7055.pem
+│       │   ├── config.yaml
+│       │   ├── keystore
+│       │   │   └── b5adaec4b76fe1904b1d67fbfac571933bb5f8d3d0e16fd6b1d77867d2992f81_sk
+│       │   ├── signcerts
+│       │   │   └── cert.pem
+│       │   └── user
+│       └── tls-msp
+│           ├── IssuerPublicKey
+│           ├── IssuerRevocationPublicKey
+│           ├── cacerts
+│           ├── keystore
+│           │   └── key.pem
+│           ├── signcerts
+│           │   └── cert.pem
+│           ├── tlscacerts
+│           │   └── tls-0-0-0-0-7052.pem
+│           └── user
+└── tls-ca
+    ├── admin
+    │   ├── fabric-ca-client-config.yaml
+    │   └── tls-msp
+    │       ├── IssuerPublicKey
+    │       ├── IssuerRevocationPublicKey
+    │       ├── cacerts
+    │       │   └── 0-0-0-0-7052.pem
+    │       ├── keystore
+    │       │   └── 18df9229c5f0525d3102d3c51cca2c628f7d62a0bd42dea75ca07fdbdc3d754d_sk
+    │       ├── signcerts
+    │       │   └── cert.pem
+    │       └── user
+    └── crypto
+        ├── IssuerPublicKey
+        ├── IssuerRevocationPublicKey
+        ├── ca-cert.pem
+        ├── fabric-ca-server-config.yaml
+        ├── fabric-ca-server.db
+        ├── msp
+        │   ├── cacerts
+        │   ├── keystore
+        │   │   ├── 6c85bf46cb7db73b6d2892f95d99ed3b02fa9645483015b6d54e046a47a8c5f6_sk
+        │   │   ├── IssuerRevocationPrivateKey
+        │   │   ├── IssuerSecretKey
+        │   │   └── e0881336ac815ad2fb44a03d322593998a911bbeeffcafea7bc418af97220021_sk
+        │   ├── signcerts
+        │   └── user
+        └── tls-cert.pem
+
+225 directories, 233 files
