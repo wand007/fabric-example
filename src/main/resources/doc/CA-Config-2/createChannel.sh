@@ -71,7 +71,7 @@ peer lifecycle chaincode queryinstalled
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
 peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name mycc --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
 
-# 查看链码认证结果 此时只有org1MSP审核通过了
+# 查看链码认证结果 此时只有Org1MSP审核通过了
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name mycc --version 1 --sequence 1 --output json --init-required
 
 exit
@@ -93,7 +93,7 @@ peer lifecycle chaincode queryinstalled
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
 peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name mycc --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
 
-# 查看链码认证结果 此时org1MSP和org2MSP都审核通过了
+# 查看链码认证结果 此时Org1MSP和Org2MSP都审核通过了
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name mycc --version 1 --sequence 1 --output json --init-required
 
 exit
