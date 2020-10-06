@@ -30,12 +30,12 @@ fabric-ca-client register -d --id.name peer0.org2.example.com --id.secret peer1P
 fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name admin.org0.example.com --id.secret org0AdminPW --id.type admin -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer1.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer2.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer3.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer4.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer5.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name admin.org0.example.com --id.secret org0AdminPW --id.type admin -u https://0.0.0.0:7052
 
 
 ## 登录org0
@@ -191,7 +191,7 @@ fabric-ca-client enroll -d -u https://admin.org0.example.com:org0adminpw@0.0.0.0
 
 
 export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/admin.org0.example.com
-export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d -u https://admin.org0.example.com:org0AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts admin.org0.example.com
 
