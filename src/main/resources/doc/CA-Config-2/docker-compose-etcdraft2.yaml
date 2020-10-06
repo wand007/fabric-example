@@ -189,7 +189,7 @@ services:
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
+      - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/org0-orderer1/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 
@@ -223,7 +223,7 @@ services:
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
+      - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/org0-orderer2/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 
@@ -257,7 +257,7 @@ services:
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
+      - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/org0-orderer3/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 

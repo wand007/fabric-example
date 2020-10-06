@@ -16,7 +16,7 @@ Organizations:
 
     # SampleOrg defines an MSP using the sampleconfig.  It should never be used
     # in production but may be used as a template for other definitions
-    - &OrdererOrg
+    - &Org0
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
         Name: Org0MSP
@@ -339,13 +339,13 @@ Profiles:
                 - org0-orderer3:9050
 
             Organizations:
-            - *OrdererOrg
+            - *Org0
             Capabilities:
                 <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:
-            - <<: *OrdererOrg
+            - <<: *Org0
         Consortiums:
             SampleConsortium:
                 Organizations:
