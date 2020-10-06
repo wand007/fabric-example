@@ -306,26 +306,16 @@ cp ./org2-config/config.yaml ./crypto-config/org2/peer0.org2.example.com/msp/
 
 
 ## org0的admin证书
-
-mkdir -p $PWD/crypto-config/configtx/org0
-cp -r $PWD/crypto-config/org0/admin.org0.example.com/msp $PWD/crypto-config/configtx/org0
-
-mkdir $PWD/crypto-config/configtx/org0/msp/tlscacerts
-cp  $PWD/crypto-config/org0/admin.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem  $PWD/crypto-config/configtx/org0/msp/tlscacerts
+mkdir $PWD/crypto-config/org0/admin.org0.example.com/msp/tlscacerts
+cp  $PWD/crypto-config/org0/admin.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem  $PWD/crypto-config/org0/admin.org0.example.com/msp/tlscacerts
 
 ## org1的admin证书
-mkdir -p $PWD/crypto-config/configtx/org1
-cp -r $PWD/crypto-config/org1/admin.org1.example.com/msp $PWD/crypto-config/configtx/org1/
-
-mkdir -p $PWD/crypto-config/configtx/org1/msp/tlscacerts
-cp $PWD/crypto-config/org1/admin.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/configtx/org1/tlscacerts
+mkdir -p $PWD/crypto-config/org1/admin.org1.example.com/msp/tlscacerts
+cp $PWD/crypto-config/org1/admin.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/org1/admin.org1.example.com/msp/tlscacerts
 
 ## org2的admin证书
-mkdir -p $PWD/crypto-config/configtx/org2
-cp -r $PWD/crypto-config/org2/admin.org2.example.com/msp $PWD/crypto-config/configtx/org2/
-
-mkdir -p $PWD/crypto-config/configtx/org2/msp/tlscacerts
-cp $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/configtx/org2/tlscacerts
+mkdir -p $PWD/crypto-config/org2/admin.org2.example.com/msp/tlscacerts
+cp $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem $PWD/crypto-config/org2/admin.org2.example.com/msp/tlscacerts
 
 
 

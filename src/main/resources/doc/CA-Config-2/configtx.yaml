@@ -25,7 +25,7 @@ Organizations:
         ID: Org0MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: ./crypto-config/configtx/org0/msp
+        MSPDir: ./crypto-config/org0/admin.org0.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -52,7 +52,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org1MSP
 
-        MSPDir: ./crypto-config/configtx/org1/msp
+        MSPDir: ./crypto-config/org1/admin.org1.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -87,7 +87,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Org2MSP
 
-        MSPDir: ./crypto-config/configtx/org2/msp
+        MSPDir: ./crypto-config/org2/admin.org2.example.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
