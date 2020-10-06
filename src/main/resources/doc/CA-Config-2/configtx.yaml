@@ -42,7 +42,7 @@ Organizations:
                 Rule: "OR('Org0MSP.admin')"
 
         OrdererEndpoints:
-            - org0-orderer1:7050
+            - orderer1.org0.example.com:7050
 
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -76,7 +76,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer1-org1
+            - Host: peer0.org1.example.com
               Port: 7051
 
     - &Org2
@@ -110,7 +110,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer1-org2
+            - Host: peer0.org2.example.com
               Port: 9051
 
 ################################################################################
@@ -321,22 +321,22 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: org0-orderer1
+                - Host: orderer1.org0.example.com
                   Port: 7050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer1/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer1/tls-msp/signcerts/cert.pem
-                - Host: org0-orderer2
+                  ClientTLSCert: ./crypto-config/org0/orderer1.org0.example.com/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderer1.org0.example.com/tls-msp/signcerts/cert.pem
+                - Host: orderer2.org0.example.com
                   Port: 8050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer2/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer2/tls-msp/signcerts/cert.pem
-                - Host: org0-orderer3
+                  ClientTLSCert: ./crypto-config/org0/orderer2.org0.example.com/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderer2.org0.example.com/tls-msp/signcerts/cert.pem
+                - Host: orderer3.org0.example.com
                   Port: 9050
-                  ClientTLSCert: ./crypto-config/org0/orderers/org0-orderer3/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/org0-orderer3/tls-msp/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/orderer3.org0.example.com/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderer3.org0.example.com/tls-msp/signcerts/cert.pem
             Addresses:
-                - org0-orderer1:7050
-                - org0-orderer2:8050
-                - org0-orderer3:9050
+                - orderer1.org0.example.com:7050
+                - orderer2.org0.example.com:8050
+                - orderer3.org0.example.com:9050
 
             Organizations:
             - *Org0
