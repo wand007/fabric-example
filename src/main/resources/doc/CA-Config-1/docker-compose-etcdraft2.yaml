@@ -11,9 +11,9 @@ volumes:
   peer2.org1.example.com:
   peer1.org2.example.com:
   peer2.org2.example.com:
-  orderer1.example.com:
-  orderer2.example.com:
-  orderer3.example.com:
+  orderer1.org0.example.com:
+  orderer2.org0.example.com:
+  orderer3.org0.example.com:
 
 networks:
   byfn:
@@ -178,103 +178,103 @@ services:
     ports:
       - 10051:10051
 
-  orderer1.example.com:
-    container_name: orderer1.example.com
+  orderer1.org0.example.com:
+    container_name: orderer1.org0.example.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
-      - ORDERER_HOST=orderer1.example.com
+      - ORDERER_HOST=orderer1.org0.example.com
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=7050
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
-      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer1.example.com/msp
+      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer1/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer1/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer1/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer1/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer1/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer1.example.com:/usr/local/home/orderer
+      - orderer1.org0.example.com:/usr/local/home/orderer
     ports:
       - 7050:7050
     networks:
       - byfn
 
-  orderer2.example.com:
-    container_name: orderer2.example.com
+  orderer2.org0.example.com:
+    container_name: orderer2.org0.example.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
-      - ORDERER_HOST=orderer2.example.com
+      - ORDERER_HOST=orderer2.org0.example.com
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
-      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer2.example.com/msp
+      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer2/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer2/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer2/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer2/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer2/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer2/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer2.example.com:/usr/local/home/orderer
+      - orderer2.org0.example.com:/usr/local/home/orderer
     ports:
       - 8050:8050
     networks:
       - byfn
 
-  orderer3.example.com:
-    container_name: orderer3.example.com
+  orderer3.org0.example.com:
+    container_name: orderer3.org0.example.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/orderer
-      - ORDERER_HOST=orderer3.example.com
+      - ORDERER_HOST=orderer3.org0.example.com
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
       - ORDERER_GENERAL_GENESISMETHOD=file
       # 创世区块路径
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=OrdererOrg
-      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer3.example.com/msp
+      - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderers/orderer3/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
 
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderers/orderer3/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderers/orderer3/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderers/orderer3/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer3.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/usr/local/home/org0/orderers/orderer3/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderers/orderer3/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderers/orderer3/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer3.example.com:/usr/local/home/orderer
+      - orderer3.org0.example.com:/usr/local/home/orderer
     ports:
       - 9050:9050
     networks:

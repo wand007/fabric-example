@@ -23,15 +23,15 @@ export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/tls-ca/admin
 fabric-ca-client enroll -d -u https://tls-ca-admin:tls-ca-adminpw@0.0.0.0:7052
 
 
-## 添加联盟成员
-fabric-ca-client affiliation list -u https://0.0.0.0:7052
-fabric-ca-client affiliation remove --force org1 -u https://0.0.0.0:7052
-fabric-ca-client affiliation remove --force org2 -u https://0.0.0.0:7052
-fabric-ca-client affiliation add com -u https://0.0.0.0:7052
-fabric-ca-client affiliation add com.example -u https://0.0.0.0:7052
-fabric-ca-client affiliation add com.example.org1 -u https://0.0.0.0:7052
-fabric-ca-client affiliation add com.example.org2 -u https://0.0.0.0:7052
-fabric-ca-client affiliation list -u https://0.0.0.0:7052
+### 添加联盟成员
+#fabric-ca-client affiliation list -u https://0.0.0.0:7052
+#fabric-ca-client affiliation remove --force org1 -u https://0.0.0.0:7052
+#fabric-ca-client affiliation remove --force org2 -u https://0.0.0.0:7052
+#fabric-ca-client affiliation add com -u https://0.0.0.0:7052
+#fabric-ca-client affiliation add com.example -u https://0.0.0.0:7052
+#fabric-ca-client affiliation add com.example.org1 -u https://0.0.0.0:7052
+#fabric-ca-client affiliation add com.example.org2 -u https://0.0.0.0:7052
+#fabric-ca-client affiliation list -u https://0.0.0.0:7052
 
 
 ## 注册
@@ -42,11 +42,11 @@ fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer1P
 fabric-ca-client register -d --id.name peer2.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer1.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer2.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer3.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer4.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer5.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer1.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer2.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer3.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer4.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name orderer5.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 
 
 
@@ -57,11 +57,11 @@ export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/ca/admin
 fabric-ca-client enroll -d -u https://org0-admin:org0-adminpw@0.0.0.0:7053
 
 ## 注册
-fabric-ca-client register -d --id.name orderer1.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
-fabric-ca-client register -d --id.name orderer2.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
-fabric-ca-client register -d --id.name orderer3.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
-fabric-ca-client register -d --id.name orderer4.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
-fabric-ca-client register -d --id.name orderer5.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer1.org0.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer2.org0.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer3.org0.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer4.org0.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
+fabric-ca-client register -d --id.name orderer5.org0.example.com --id.secret ordererpw --id.type orderer --id.attrs '"hf.Registrar.Roles=orderer"' -u https://0.0.0.0:7053
 fabric-ca-client register -d --id.name admin-org0 --id.secret org0adminpw --id.type admin --id.attrs "hf.Registrar.Roles=client,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" -u https://0.0.0.0:7053
 
 
@@ -95,8 +95,6 @@ fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2Ad
 
 
 ## 通过客户端为所有节点生成msp证书和tls证书
-
-
 export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org1/peer1
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org1/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
@@ -204,21 +202,21 @@ cp $PWD/crypto-config/org2/admin/msp/signcerts/cert.pem $PWD/crypto-config/org2/
 mkdir -p $PWD/crypto-config/org0/orderers
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
-fabric-ca-client enroll -d -u https://orderer1.example.com:ordererpw@0.0.0.0:7053
+fabric-ca-client enroll -d -u https://orderer1.org0.example.com:ordererpw@0.0.0.0:7053
 
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer1
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://orderer1.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer1.example.com
+fabric-ca-client enroll -d -u https://orderer1.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer1.org0.example.com
 
 
 
-mv $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/keystore/key.pem
+mv $PWD/crypto-config/org0/orderers/orderer1/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer1/tls-msp/keystore/key.pem
 
 export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/admin
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
@@ -226,95 +224,95 @@ export FABRIC_CA_CLIENT_MSPDIR=msp
 fabric-ca-client enroll -d -u https://admin-org0:org0adminpw@0.0.0.0:7053
 
 
-mkdir $PWD/crypto-config/org0/orderers/orderer1.example.com/msp/admincerts
-cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer1.example.com/msp/admincerts/orderer-admin-cert.pem
+mkdir $PWD/crypto-config/org0/orderers/orderer1/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer1/msp/admincerts/orderer-admin-cert.pem
 
 
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
-fabric-ca-client enroll -d -u https://orderer2.example.com:ordererpw@0.0.0.0:7053
+fabric-ca-client enroll -d -u https://orderer2.org0.example.com:ordererpw@0.0.0.0:7053
 
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer2
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://orderer2.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer2.example.com
+fabric-ca-client enroll -d -u https://orderer2.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer2.org0.example.com
 
 
-mv $PWD/crypto-config/org0/orderers/orderer2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer2.example.com/tls-msp/keystore/key.pem
+mv $PWD/crypto-config/org0/orderers/orderer2/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer2/tls-msp/keystore/key.pem
 
-mkdir $PWD/crypto-config/org0/orderers/orderer2.example.com/msp/admincerts
-cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer2.example.com/msp/admincerts/orderer-admin-cert.pem
+mkdir $PWD/crypto-config/org0/orderers/orderer2/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer2/msp/admincerts/orderer-admin-cert.pem
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
-fabric-ca-client enroll -d -u https://orderer3.example.com:ordererpw@0.0.0.0:7053
+fabric-ca-client enroll -d -u https://orderer3.org0.example.com:ordererpw@0.0.0.0:7053
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer3
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://orderer3.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer3.example.com
+fabric-ca-client enroll -d -u https://orderer3.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer3.org0.example.com
 
 
-mv $PWD/crypto-config/org0/orderers/orderer3.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer3.example.com/tls-msp/keystore/key.pem
+mv $PWD/crypto-config/org0/orderers/orderer3/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer3/tls-msp/keystore/key.pem
 
-mkdir $PWD/crypto-config/org0/orderers/orderer3.example.com/msp/admincerts
-cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer3.example.com/msp/admincerts/orderer-admin-cert.pem
+mkdir $PWD/crypto-config/org0/orderers/orderer3/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer3/msp/admincerts/orderer-admin-cert.pem
 
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
-fabric-ca-client enroll -d -u https://orderer4.example.com:ordererpw@0.0.0.0:7053
+fabric-ca-client enroll -d -u https://orderer4.org0.example.com:ordererpw@0.0.0.0:7053
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer4
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://orderer4.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer4.example.com
+fabric-ca-client enroll -d -u https://orderer4.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer4.org0.example.com
 
 
-mv $PWD/crypto-config/org0/orderers/orderer4.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer4.example.com/tls-msp/keystore/key.pem
+mv $PWD/crypto-config/org0/orderers/orderer4/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer4/tls-msp/keystore/key.pem
 
-mkdir $PWD/crypto-config/org0/orderers/orderer4.example.com/msp/admincerts
-cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer4.example.com/msp/admincerts/orderer-admin-cert.pem
-
-
+mkdir $PWD/crypto-config/org0/orderers/orderer4/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer4/msp/admincerts/orderer-admin-cert.pem
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5.example.com
+
+
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/org0/ca/crypto/ca-cert.pem
 export FABRIC_CA_CLIENT_MSPDIR=msp
-fabric-ca-client enroll -d -u https://orderer5.example.com:ordererpw@0.0.0.0:7053
+fabric-ca-client enroll -d -u https://orderer5.org0.example.com:ordererpw@0.0.0.0:7053
 
 
-export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5.example.com
+export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org0/orderers/orderer5
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://orderer5.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer5.example.com
+fabric-ca-client enroll -d -u https://orderer5.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer5.org0.example.com
 
 
-mv $PWD/crypto-config/org0/orderers/orderer5.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer5.example.com/tls-msp/keystore/key.pem
+mv $PWD/crypto-config/org0/orderers/orderer5/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderers/orderer5/tls-msp/keystore/key.pem
 
-mkdir $PWD/crypto-config/org0/orderers/orderer5.example.com/msp/admincerts
-cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer5.example.com/msp/admincerts/orderer-admin-cert.pem
+mkdir $PWD/crypto-config/org0/orderers/orderer5/msp/admincerts
+cp $PWD/crypto-config/org0/admin/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderers/orderer5/msp/admincerts/orderer-admin-cert.pem
 
 
 
 cp ./orderer-config/config.yaml ./crypto-config/org0/admin/msp/
-cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer1.example.com/msp/
-cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer2.example.com/msp/
-cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer3.example.com/msp/
-cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer4.example.com/msp/
-cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer5.example.com/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer1/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer2/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer3/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer4/msp/
+cp ./orderer-config/config.yaml ./crypto-config/org0/orderers/orderer5/msp/
 
 cp ./org1-config/config.yaml ./crypto-config/org1/admin/msp/
 cp ./org1-config/config.yaml ./crypto-config/org1/peer1/msp/
@@ -331,7 +329,7 @@ mkdir -p $PWD/crypto-config/configtx/org0
 cp -r $PWD/crypto-config/org0/admin/msp $PWD/crypto-config/configtx/org0
 
 mkdir $PWD/crypto-config/configtx/org0/msp/tlscacerts
-cp  $PWD/crypto-config/org0/orderers/orderer1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem  $PWD/crypto-config/configtx/org0/msp/tlscacerts
+cp  $PWD/crypto-config/org0/orderers/orderer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem  $PWD/crypto-config/configtx/org0/msp/tlscacerts
 
 ## org1的admin证书
 mkdir -p $PWD/crypto-config/configtx/org1

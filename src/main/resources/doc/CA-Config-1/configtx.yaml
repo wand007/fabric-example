@@ -16,7 +16,7 @@ Organizations:
 
     # SampleOrg defines an MSP using the sampleconfig.  It should never be used
     # in production but may be used as a template for other definitions
-    - &OrdererOrg
+    - &Org0
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
         Name: Org0MSP
@@ -42,7 +42,7 @@ Organizations:
                 Rule: "OR('Org0MSP.admin')"
 
         OrdererEndpoints:
-            - orderer1.example.com:7050
+            - orderer1.org0.example.com:7050
 
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -321,31 +321,31 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: orderer1.example.com
+                - Host: orderer1.org0.example.com
                   Port: 7050
-                  ClientTLSCert: ./crypto-config/org0/orderers/orderer1.example.com/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/orderer1.example.com/tls-msp/signcerts/cert.pem
-                - Host: orderer2.example.com
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer1/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer1/tls-msp/signcerts/cert.pem
+                - Host: orderer2.org0.example.com
                   Port: 8050
-                  ClientTLSCert: ./crypto-config/org0/orderers/orderer2.example.com/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/orderer2.example.com/tls-msp/signcerts/cert.pem
-                - Host: orderer3.example.com
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer2/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer2/tls-msp/signcerts/cert.pem
+                - Host: orderer3.org0.example.com
                   Port: 9050
-                  ClientTLSCert: ./crypto-config/org0/orderers/orderer3.example.com/tls-msp/signcerts/cert.pem
-                  ServerTLSCert: ./crypto-config/org0/orderers/orderer3.example.com/tls-msp/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer3/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer3/tls-msp/signcerts/cert.pem
             Addresses:
-                - orderer1.example.com:7050
-                - orderer2.example.com:8050
-                - orderer3.example.com:9050
+                - orderer1.org0.example.com:7050
+                - orderer2.org0.example.com:8050
+                - orderer3.org0.example.com:9050
 
             Organizations:
-            - *OrdererOrg
+            - *Org0
             Capabilities:
                 <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:
-            - <<: *OrdererOrg
+            - <<: *Org0
         Consortiums:
             SampleConsortium:
                 Organizations:
