@@ -48,16 +48,14 @@ public class Application {
         Path credentialPath = Paths.get("src/main/resources/crypto-config/org1/admin.org1.example.com/msp");
 
 
-        X509Certificate certificate = null;
-        PrivateKey privateKey = null;
         try {
             //使用org1中的user1初始化一个网关wallet账户用于连接网络
             Wallet wallet = Wallets.newInMemoryWallet();
             Path certificatePath = credentialPath.resolve(Paths.get("signcerts", "cert.pem"));
-            certificate = readX509Certificate(certificatePath);
+            X509Certificate certificate = readX509Certificate(certificatePath);
 
             Path privateKeyPath = credentialPath.resolve(Paths.get("keystore", "b22673338442465046078e7c5ba8194544a8a7910f489f84a4630c658ea39e42_sk"));
-            privateKey = getPrivateKey(privateKeyPath);
+            PrivateKey privateKey = getPrivateKey(privateKeyPath);
 
             wallet.put("user", Identities.newX509Identity("Org1MSP", certificate, privateKey));
 
