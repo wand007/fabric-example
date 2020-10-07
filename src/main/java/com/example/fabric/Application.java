@@ -15,6 +15,7 @@ import java.security.PrivateKey;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.EnumSet;
+
 /**
  * @author ; lidongdong
  * @Description
@@ -22,54 +23,9 @@ import java.util.EnumSet;
  */
 public class Application {
 
-    private Gateway gateway;
-    private Network network;
-    private static final Path NETWORK_CONFIG_PATH = Paths.get("src/main/resources/doc/CA-Config-2/connection.json");
-    private static final Path credentialPath = Paths.get("src/main/resources/crypto-config/org1/admin.org1.example.com/msp");
 
     public static void main(String[] args) {
-
-        X509Certificate certificate = null;
-        PrivateKey privateKey = null;
-        Gateway gateway = null;
-        try {
-            //使用org1中的user1初始化一个网关wallet账户用于连接网络
-            Wallet wallet = Wallets.newInMemoryWallet();
-            Path certificatePath = credentialPath.resolve(Paths.get("signcerts", "cert.pem"));
-            certificate = readX509Certificate(certificatePath);
-
-            Path privateKeyPath = credentialPath.resolve(Paths.get("keystore", "b22673338442465046078e7c5ba8194544a8a7910f489f84a4630c658ea39e42_sk"));
-            privateKey = getPrivateKey(privateKeyPath);
-
-            wallet.put("user",Identities.newX509Identity("Org1MSP",certificate,privateKey));
-
-            //根据connection.json 获取Fabric网络连接对象
-            GatewayImpl.Builder builder = (GatewayImpl.Builder) Gateway.createBuilder();
-
-            builder.identity(wallet, "user").networkConfig(NETWORK_CONFIG_PATH);
-            //连接网关
-            gateway = builder.connect();
-            //获取mychannel通道
-            Network network = gateway.getNetwork("mychannel");
-            //获取合约对象
-            Contract contract = network.getContract("mycc");
-            //查询a的余额
-            byte[] queryAResultBefore = contract.evaluateTransaction("query","a");
-            System.out.println("交易前："+new String(queryAResultBefore, StandardCharsets.UTF_8));
-
-            // a转50给b
-            byte[] invokeResult = contract.createTransaction("invoke")
-                    .setEndorsingPeers(network.getChannel().getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER)))
-                    .submit("b", "a", "10");
-            System.out.println(new String(invokeResult, StandardCharsets.UTF_8));
-
-            //查询交易结果
-            byte[] queryAResultAfter = contract.evaluateTransaction("query","a");
-            System.out.println("交易后："+new String(queryAResultAfter, StandardCharsets.UTF_8));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        caConfig2();
 
     }
 
@@ -82,6 +38,55 @@ public class Application {
     private static PrivateKey getPrivateKey(final Path privateKeyPath) throws IOException, InvalidKeyException {
         try (Reader privateKeyReader = Files.newBufferedReader(privateKeyPath, StandardCharsets.UTF_8)) {
             return Identities.readPrivateKey(privateKeyReader);
+        }
+    }
+
+
+    public static void caConfig2() {
+
+        Path NETWORK_CONFIG_PATH = Paths.get("src/main/resources/doc/CA-Config-2/connection.json");
+        Path credentialPath = Paths.get("src/main/resources/crypto-config/org1/admin.org1.example.com/msp");
+
+
+        X509Certificate certificate = null;
+        PrivateKey privateKey = null;
+        try {
+            //使用org1中的user1初始化一个网关wallet账户用于连接网络
+            Wallet wallet = Wallets.newInMemoryWallet();
+            Path certificatePath = credentialPath.resolve(Paths.get("signcerts", "cert.pem"));
+            certificate = readX509Certificate(certificatePath);
+
+            Path privateKeyPath = credentialPath.resolve(Paths.get("keystore", "b22673338442465046078e7c5ba8194544a8a7910f489f84a4630c658ea39e42_sk"));
+            privateKey = getPrivateKey(privateKeyPath);
+
+            wallet.put("user", Identities.newX509Identity("Org1MSP", certificate, privateKey));
+
+            //根据connection.json 获取Fabric网络连接对象
+            GatewayImpl.Builder builder = (GatewayImpl.Builder) Gateway.createBuilder();
+
+            builder.identity(wallet, "user").networkConfig(NETWORK_CONFIG_PATH);
+            //连接网关
+            Gateway gateway = builder.connect();
+            //获取mychannel通道
+            Network network = gateway.getNetwork("mychannel");
+            //获取合约对象
+            Contract contract = network.getContract("mycc");
+            //查询a的余额
+            byte[] queryAResultBefore = contract.evaluateTransaction("query", "a");
+            System.out.println("交易前：" + new String(queryAResultBefore, StandardCharsets.UTF_8));
+
+            // a转50给b
+            byte[] invokeResult = contract.createTransaction("invoke")
+                    .setEndorsingPeers(network.getChannel().getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER)))
+                    .submit("b", "a", "10");
+            System.out.println(new String(invokeResult, StandardCharsets.UTF_8));
+
+            //查询交易结果
+            byte[] queryAResultAfter = contract.evaluateTransaction("query", "a");
+            System.out.println("交易后：" + new String(queryAResultAfter, StandardCharsets.UTF_8));
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
