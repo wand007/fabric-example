@@ -43,7 +43,7 @@
         "ca-org1"
       ],
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org1/admin.org1.example.com/msp/keystore/b22673338442465046078e7c5ba8194544a8a7910f489f84a4630c658ea39e42_sk"
+        "path": "src/main/resources/crypto-config/org1/admin.org1.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
         "path": "src/main/resources/crypto-config/org1/admin.org1.example.com/msp/signcerts/cert.pem"
@@ -58,7 +58,7 @@
         "ca-org2"
       ],
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org2/admin.org2.example.com/msp/keystore/86439a501ca59c2f17b0b6350f70434efa8315c1be8b0f1a99851a0e6ffc568d_sk"
+        "path": "src/main/resources/crypto-config/org2/admin.org2.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
         "path": "src/main/resources/crypto-config/org2/admin.org2.example.com/msp/signcerts/cert.pem"
@@ -77,7 +77,7 @@
         "path": "src/main/resources/crypto-config/org0/orderer1.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
       },
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org0/admin.org0.example.com/msp/keystore/03d1574e729e4ad6536d96ed265ddb1cbbeac01776a7b485ea1693013390d0cb_sk"
+        "path": "src/main/resources/crypto-config/org0/admin.org0.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
         "path": "src/main/resources/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem"

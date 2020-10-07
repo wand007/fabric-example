@@ -11,7 +11,6 @@ docker-compose -f docker-compose-ca.yaml  down --volumes --remove-orphans
 
 ## docker rm -f $(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
 
-## export PWD=$GOPATH/src/github.com/hyperledger/fabric-samples/first-ca
 
 ## 启动CA服务
 docker-compose -f docker-compose-ca.yaml up -d 2>&1
@@ -92,6 +91,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://admin.org1.example.com:org1AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts admin.org1.example.com
 
+mv $PWD/crypto-config/org1/admin.org1.example.com/msp/keystore/*_sk $PWD/crypto-config/org1/admin.org1.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org1/admin.org1.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org1/admin.org1.example.com/tls-msp/keystore/key.pem
 
 
@@ -108,6 +108,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://peer0.org1.example.com:peer1PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer0.org1.example.com
 
+mv $PWD/crypto-config/org1/peer0.org1.example.com/msp/keystore/*_sk $PWD/crypto-config/org1/peer0.org1.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org1/peer0.org1.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org1/peer0.org1.example.com/tls-msp/keystore/key.pem
 mkdir -p $PWD/crypto-config/org1/peer0.org1.example.com/msp/admincerts
 cp $PWD/crypto-config/org1/admin.org1.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org1/peer0.org1.example.com/msp/admincerts/org1-admin-cert.pem
@@ -126,6 +127,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://peer1.org1.example.com:peer2PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org1.example.com
 
+mv $PWD/crypto-config/org1/peer1.org1.example.com/msp/keystore/*_sk  $PWD/crypto-config/org1/peer1.org1.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org1/peer1.org1.example.com/tls-msp/keystore/*_sk  $PWD/crypto-config/org1/peer1.org1.example.com/tls-msp/keystore/key.pem
 mkdir -p $PWD/crypto-config/org1/peer1.org1.example.com/msp/admincerts
 cp $PWD/crypto-config/org1/admin.org1.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org1/peer1.org1.example.com/msp/admincerts/org1-admin-cert.pem
@@ -144,6 +146,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org2.example.com
 
+mv $PWD/crypto-config/org2/admin.org2.example.com/msp/keystore/*_sk $PWD/crypto-config/org2/admin.org2.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/keystore/key.pem
 
 
@@ -160,6 +163,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://peer0.org2.example.com:peer1PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer0.org2.example.com
 
+mv $PWD/crypto-config/org2/peer0.org2.example.com/msp/keystore/*_sk $PWD/crypto-config/org2/peer0.org2.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org2/peer0.org2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org2/peer0.org2.example.com/tls-msp/keystore/key.pem
 mkdir -p $PWD/crypto-config/org2/peer0.org2.example.com/msp/admincerts
 cp $PWD/crypto-config/org2/admin.org2.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org2/peer0.org2.example.com/msp/admincerts/org2-admin-cert.pem
@@ -177,6 +181,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://peer1.org2.example.com:peer2PW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org2.example.com
 
+mv $PWD/crypto-config/org2/peer1.org2.example.com/msp/keystore/*_sk $PWD/crypto-config/org2/peer1.org2.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org2/peer1.org2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org2/peer1.org2.example.com/tls-msp/keystore/key.pem
 mkdir -p $PWD/crypto-config/org2/peer1.org2.example.com/msp/admincerts
 cp $PWD/crypto-config/org2/admin.org2.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org2/peer1.org2.example.com/msp/admincerts/org2-admin-cert.pem
@@ -195,6 +200,7 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.p
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 fabric-ca-client enroll -d -u https://admin.org0.example.com:org0AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts admin.org0.example.com
 
+mv $PWD/crypto-config/org0/admin.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/admin.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/admin.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/admin.org0.example.com/tls-msp/keystore/key.pem
 
 
@@ -211,6 +217,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://orderer1.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer1.org0.example.com
 
+mv $PWD/crypto-config/org0/orderer1.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/orderer1.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/orderer1.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderer1.org0.example.com/tls-msp/keystore/key.pem
 mkdir $PWD/crypto-config/org0/orderer1.org0.example.com/msp/admincerts
 cp $PWD/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderer1.org0.example.com/msp/admincerts/orderer-admin-cert.pem
@@ -229,6 +236,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://orderer2.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer2.org0.example.com
 
+mv $PWD/crypto-config/org0/orderer2.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/orderer2.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/orderer2.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderer2.org0.example.com/tls-msp/keystore/key.pem
 mkdir $PWD/crypto-config/org0/orderer2.org0.example.com/msp/admincerts
 cp $PWD/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderer2.org0.example.com/msp/admincerts/orderer-admin-cert.pem
@@ -247,6 +255,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://orderer3.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer3.org0.example.com
 
+mv $PWD/crypto-config/org0/orderer3.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/orderer3.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/orderer3.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderer3.org0.example.com/tls-msp/keystore/key.pem
 mkdir $PWD/crypto-config/org0/orderer3.org0.example.com/msp/admincerts
 cp $PWD/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderer3.org0.example.com/msp/admincerts/orderer-admin-cert.pem
@@ -265,6 +274,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://orderer4.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer4.org0.example.com
 
+mv $PWD/crypto-config/org0/orderer4.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/orderer4.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/orderer4.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderer4.org0.example.com/tls-msp/keystore/key.pem
 mkdir $PWD/crypto-config/org0/orderer4.org0.example.com/msp/admincerts
 cp $PWD/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderer4.org0.example.com/msp/admincerts/orderer-admin-cert.pem
@@ -283,6 +293,7 @@ export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
 fabric-ca-client enroll -d -u https://orderer5.org0.example.com:ordererPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts orderer5.org0.example.com
 
+mv $PWD/crypto-config/org0/orderer5.org0.example.com/msp/keystore/*_sk $PWD/crypto-config/org0/orderer5.org0.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org0/orderer5.org0.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org0/orderer5.org0.example.com/tls-msp/keystore/key.pem
 mkdir $PWD/crypto-config/org0/orderer5.org0.example.com/msp/admincerts
 cp $PWD/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org0/orderer5.org0.example.com/msp/admincerts/orderer-admin-cert.pem

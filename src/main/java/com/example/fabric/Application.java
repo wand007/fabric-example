@@ -54,7 +54,7 @@ public class Application {
             Path certificatePath = credentialPath.resolve(Paths.get("signcerts", "cert.pem"));
             X509Certificate certificate = readX509Certificate(certificatePath);
 
-            Path privateKeyPath = credentialPath.resolve(Paths.get("keystore", "b22673338442465046078e7c5ba8194544a8a7910f489f84a4630c658ea39e42_sk"));
+            Path privateKeyPath = credentialPath.resolve(Paths.get("keystore", "key.pem"));
             PrivateKey privateKey = getPrivateKey(privateKeyPath);
 
             wallet.put("user", Identities.newX509Identity("Org1MSP", certificate, privateKey));
@@ -76,7 +76,7 @@ public class Application {
             // a转50给b
             byte[] invokeResult = contract.createTransaction("invoke")
                     .setEndorsingPeers(network.getChannel().getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER)))
-                    .submit("b", "a", "10");
+                    .submit("a", "b", "10");
             System.out.println(new String(invokeResult, StandardCharsets.UTF_8));
 
             //查询交易结果
