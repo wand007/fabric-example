@@ -33,6 +33,9 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
+
+    volumes:
+      - ./data/couchdbs/couchdb0.org1.example.com:/opt/couchdb/data
     ports:
       - "5984:5984"
     networks:
@@ -81,6 +84,7 @@ services:
     volumes:
       - /var/run:/host/var/run
       - ./crypto-config:/usr/local/home
+      - peer0.org1.example.com:/var/hyperledger/production
     networks:
       - byfn
     ports:
@@ -96,6 +100,8 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
+    volumes:
+      - ./data/couchdbs/couchdb1.org1.example.com:/opt/couchdb/data
     ports:
       - "6984:5984"
     networks:
@@ -144,6 +150,7 @@ services:
     volumes:
       - /var/run:/host/var/run
       - ./crypto-config:/usr/local/home
+      - peer1.org1.example.com:/var/hyperledger/production
     networks:
       - byfn
     ports:
@@ -158,6 +165,8 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
+    volumes:
+      - ./data/couchdbs/couchdb0.org2.example.com:/opt/couchdb/data
     ports:
       - "7984:5984"
     networks:
@@ -207,6 +216,7 @@ services:
     volumes:
       - /var/run:/host/var/run
       - ./crypto-config:/usr/local/home
+      - peer0.org2.example.com:/var/hyperledger/production
     networks:
       - byfn
     ports:
@@ -221,6 +231,8 @@ services:
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
+    volumes:
+      - ./data/couchdbs/couchdb1.org2.example.com:/opt/couchdb/data
     ports:
       - "8984:5984"
     networks:
@@ -270,6 +282,7 @@ services:
     volumes:
       - /var/run:/host/var/run
       - ./crypto-config:/usr/local/home
+      - peer1.org2.example.com:/var/hyperledger/production
     networks:
       - byfn
     ports:
@@ -306,7 +319,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer1.org0.example.com:/usr/local/org0
+      - orderer1.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
     networks:
@@ -341,7 +354,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer2.org0.example.com:/usr/local/org0
+      - orderer2.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 8050:8050
     networks:
@@ -376,7 +389,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - orderer3.org0.example.com:/usr/local/org0
+      - orderer3.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 9050:9050
     networks:
