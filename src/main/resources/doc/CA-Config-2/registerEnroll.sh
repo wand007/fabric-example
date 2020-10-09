@@ -1,6 +1,6 @@
 #!/bin/bash
 ## 工作目录,除非特殊说明，一般命令的执行都是在工作目录进行。
-## cd $GOPATH/src/github.com/hyperledger/fabric-samples/first
+## http://localhost:5984/_utils/
 
 ## 首次运行清除docker影响
 

@@ -7,6 +7,10 @@
 version: '2'
 
 volumes:
+  couchdb0.org1.example.com:
+  couchdb1.org1.example.com:
+  couchdb0.org2.example.com:
+  couchdb1.org2.example.com:
   peer0.org1.example.com:
   peer1.org1.example.com:
   peer0.org2.example.com:
@@ -21,36 +25,58 @@ networks:
       name: ${COMPOSE_PROJECT_NAME}
 
 services:
+
+
+  couchdb0.org1.example.com:
+    container_name: couchdb0.org1.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - "5984:5984"
+    networks:
+      - byfn
+
+
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
     image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       # 网络模式
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
-      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_ID=peer0.org1.example.com
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
       - CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+
       ## peer1的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer2的CORE_PEER_ADDRESS
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org1.example.com:8051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
-      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # tls配置
       - CORE_PEER_TLS_ENABLED=true
-      # msp证书路径
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer0.org1.example.com/msp
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer0.org1.example.com/tls-msp/signcerts/cert.pem
       # tls私钥证书路径
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org1/peer0.org1.example.com/tls-msp/keystore/key.pem
       # tls服务端的根证书路径
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer0.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer0.org1.example.com/msp
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org1.example.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer0.org1.example.com
     volumes:
       - /var/run:/host/var/run
@@ -59,26 +85,47 @@ services:
       - byfn
     ports:
       - 7051:7051
+    depends_on:
+      - couchdb0.org1.example.com
+
+
+
+  couchdb1.org1.example.com:
+    container_name: couchdb1.org1.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - "6984:5984"
+    networks:
+      - byfn
+
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
     image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       # 网络模式
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
-      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_LOCALMSPID=Org1MSP
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_ADDRESS=peer1.org1.example.com:8051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
       - CORE_PEER_CHAINCODEADDRESS=peer1.org1.example.com:8052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+
       ## peer2的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer1的CORE_PEER_ADDRESS
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:8051
-      - CORE_PEER_LOCALMSPID=Org1MSP
-      # msp证书路径
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1.org1.example.com/msp
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # tls配置
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer1.org1.example.com/tls-msp/signcerts/cert.pem
@@ -86,10 +133,13 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org1/peer1.org1.example.com/tls-msp/keystore/key.pem
       # tls服务端的根证书路径
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer1.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_PROFILE_ENABLED=true
-      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1.org1.example.com/msp
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org1.example.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer1.org1.example.com
     volumes:
       - /var/run:/host/var/run
@@ -98,27 +148,46 @@ services:
       - byfn
     ports:
       - 8051:8051
+    depends_on:
+      - couchdb1.org1.example.com
+
+
+  couchdb0.org2.example.com:
+    container_name: couchdb0.org2.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - "7984:5984"
+    networks:
+      - byfn
 
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
     image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       # 网络模式
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
-      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
       - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+
       ## peer1的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer2的CORE_PEER_ADDRESS
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org2.example.com:10051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:9051
-      - CORE_PEER_LOCALMSPID=Org2MSP
-      # msp证书路径
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer0.org2.example.com/msp
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # tls配置
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer0.org2.example.com/tls-msp/signcerts/cert.pem
@@ -126,10 +195,14 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org2/peer0.org2.example.com/tls-msp/keystore/key.pem
       # tls服务端的根证书路径
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer0.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
-      - CORE_PEER_PROFILE_ENABLED=true
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer0.org2.example.com/msp
+
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org2.example.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer0.org2.example.com
     volumes:
       - /var/run:/host/var/run
@@ -138,26 +211,46 @@ services:
       - byfn
     ports:
       - 9051:9051
+    depends_on:
+      - couchdb0.org2.example.com
+
+
+  couchdb1.org2.example.com:
+    container_name: couchdb1.org2.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - "8984:5984"
+    networks:
+      - byfn
+
 
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
     image: hyperledger/fabric-peer:amd64-2.1.0
     environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       # 网络模式
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
-      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_LOCALMSPID=Org2MSP
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_ADDRESS=peer1.org2.example.com:10051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
       - CORE_PEER_CHAINCODEADDRESS=peer1.org2.example.com:10052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+
       ## peer2的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer1的CORE_PEER_ADDRESS
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:9051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:10051
-      - CORE_PEER_LOCALMSPID=Org2MSP
-      # msp证书路径
-      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer1.org2.example.com/msp
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # tls配置
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer1.org2.example.com/tls-msp/signcerts/cert.pem
@@ -165,10 +258,14 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org2/peer1.org2.example.com/tls-msp/keystore/key.pem
       # tls服务端的根证书路径
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer1.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
-      - CORE_PEER_GOSSIP_USELEADERELECTION=true
-      - CORE_PEER_GOSSIP_ORGLEADER=false
-      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
-      - CORE_PEER_PROFILE_ENABLED=true
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer1.org2.example.com/msp
+
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org2.example.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer1.org2.example.com
     volumes:
       - /var/run:/host/var/run
@@ -177,6 +274,9 @@ services:
       - byfn
     ports:
       - 10051:10051
+    depends_on:
+      - couchdb1.org2.example.com
+
 
   orderer1.org0.example.com:
     container_name: orderer1.org0.example.com
@@ -184,6 +284,7 @@ services:
     environment:
       - ORDERER_HOME=/usr/local/home/org0
       - ORDERER_HOST=orderer1.org0.example.com
+      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=7050
       - ORDERER_GENERAL_GENESISMETHOD=file
@@ -191,8 +292,8 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderer1.org0.example.com/msp
-      - ORDERER_GENERAL_TLS_ENABLED=true
 
+      - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderer1.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderer1.org0.example.com/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderer1.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
@@ -201,7 +302,6 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderer1.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderer1.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
@@ -212,12 +312,14 @@ services:
     networks:
       - byfn
 
+
   orderer2.org0.example.com:
     container_name: orderer2.org0.example.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/org0
       - ORDERER_HOST=orderer2.org0.example.com
+      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=8050
       - ORDERER_GENERAL_GENESISMETHOD=file
@@ -225,8 +327,8 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderer2.org0.example.com/msp
-      - ORDERER_GENERAL_TLS_ENABLED=true
 
+      - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderer2.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderer2.org0.example.com/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderer2.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
@@ -235,7 +337,6 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderer2.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderer2.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
@@ -246,12 +347,14 @@ services:
     networks:
       - byfn
 
+
   orderer3.org0.example.com:
     container_name: orderer3.org0.example.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - ORDERER_HOME=/usr/local/home/org0
       - ORDERER_HOST=orderer3.org0.example.com
+      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=9050
       - ORDERER_GENERAL_GENESISMETHOD=file
@@ -259,8 +362,8 @@ services:
       - ORDERER_GENERAL_GENESISFILE=/usr/local/channel-artifacts/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=Org0MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/usr/local/home/org0/orderer3.org0.example.com/msp
-      - ORDERER_GENERAL_TLS_ENABLED=true
 
+      - ORDERER_GENERAL_TLS_ENABLED=true
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/usr/local/home/org0/orderer3.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_TLS_CERTIFICATE=/usr/local/home/org0/orderer3.org0.example.com/tls-msp/signcerts/cert.pem
       - ORDERER_GENERAL_TLS_ROOTCAS=[/usr/local/home/org0/orderer3.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
@@ -269,7 +372,6 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/usr/local/home/org0/orderer3.org0.example.com/tls-msp/keystore/key.pem
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/usr/local/home/org0/orderer3.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
 
-      - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
       - ./crypto-config:/usr/local/home
