@@ -65,7 +65,7 @@ services:
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
-      # tls配置
+      # 通信是否使用tls加密
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer0.org1.example.com/tls-msp/signcerts/cert.pem
@@ -131,7 +131,7 @@ services:
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
-      # tls配置
+      # 通信是否使用tls加密
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org1/peer1.org1.example.com/tls-msp/signcerts/cert.pem
@@ -196,7 +196,7 @@ services:
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
-      # tls配置
+      # 通信是否使用tls加密
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer0.org2.example.com/tls-msp/signcerts/cert.pem
@@ -262,7 +262,7 @@ services:
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_PROFILE_ENABLED=true
-      # tls配置
+      # 通信是否使用tls加密
       - CORE_PEER_TLS_ENABLED=true
       # tls签名证书路径
       - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org2/peer1.org2.example.com/tls-msp/signcerts/cert.pem

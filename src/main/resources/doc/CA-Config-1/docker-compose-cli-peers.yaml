@@ -47,7 +47,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
       - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
@@ -82,7 +82,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
       - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
@@ -116,7 +116,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
       - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
@@ -150,7 +150,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
-      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
       - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn

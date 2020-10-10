@@ -52,11 +52,16 @@ peer channel update -o orderer1.org0.example.com:7050 -c $CHANNEL_NAME -f /usr/l
 exit
 
 
-# pee1-org1安装链码
+# pee0-org1安装链码
 docker exec -it cli-org1-peer0 bash
 
+# 设置golang的环境变量
+pushd /opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/
+GO111MODULE=on go mod vendor
+popd
+
 # 打包链码
-peer lifecycle chaincode package /usr/local/chaincode-artifacts/mycc.tar.gz --path github.com/hyperledger/fabric-samples/chaincode/abstore/go/ --lang golang --label mycc_1
+peer lifecycle chaincode package /usr/local/chaincode-artifacts/mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/ --lang golang --label mycc_1
 
 # 安装链码
 peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
@@ -77,7 +82,7 @@ peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name m
 exit
 
 
-# pee1-org2安装链码
+# pee0-org2安装链码
 docker exec -it cli-org2-peer0 bash
 
 # 安装链码
@@ -98,7 +103,7 @@ peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name m
 
 exit
 
-# pee2-org1安装链码
+# pee1-org1安装链码
 docker exec -it cli-org1-peer1 bash
 
 # 安装链码
@@ -109,7 +114,7 @@ peer lifecycle chaincode queryinstalled
 
 exit
 
-# pee2-org2安装链码
+# pee1-org2安装链码
 docker exec -it cli-org2-peer1 bash
 
 # 安装链码
