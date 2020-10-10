@@ -18,7 +18,7 @@ services:
     image: hyperledger/fabric-ca
     # 默认端口是7054  tls-ca-admin:tls-ca-adminpw 管理员的账号:密码
     # 可以使用mysql数据库,但是每个ca服务端都必须配置一个单独的db(尚未尝试)
-    command: sh -c 'fabric-ca-server start -d -b tls-ca-admin:tls-ca-adminpw --cfg.affiliations.allowremove --cfg.identities.allowremove'
+    command: sh -c 'fabric-ca-server start -d -b tls-ca-admin:tls-ca-adminpw'
     environment:
       - FABRIC_CA_SERVER_HOME=/usr/local/home/tls-ca/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true

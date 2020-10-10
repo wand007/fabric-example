@@ -44,8 +44,8 @@ public class Application {
 
     public static void caConfig2() {
 
-        Path NETWORK_CONFIG_PATH = Paths.get("src/main/resources/doc/CA-Config-2/connection.json");
-        Path credentialPath = Paths.get("src/main/resources/crypto-config/org1/admin.org1.example.com/msp");
+        Path NETWORK_CONFIG_PATH = Paths.get("src/main/resources/doc/CA-Config-1/connection.json");
+        Path credentialPath = Paths.get("src/main/resources/doc/CA-Config-1/crypto-config/org1/admin.org1.example.com/msp");
 
 
         try {
@@ -76,7 +76,7 @@ public class Application {
             // a转50给b
             byte[] invokeResult = contract.createTransaction("invoke")
                     .setEndorsingPeers(network.getChannel().getPeers(EnumSet.of(Peer.PeerRole.ENDORSING_PEER)))
-                    .submit("a", "b", "10");
+                    .submit("a", "b", "5");
             System.out.println(new String(invokeResult, StandardCharsets.UTF_8));
 
             //查询交易结果

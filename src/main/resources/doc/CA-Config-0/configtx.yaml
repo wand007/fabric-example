@@ -16,16 +16,16 @@ Organizations:
 
     # SampleOrg defines an MSP using the sampleconfig.  It should never be used
     # in production but may be used as a template for other definitions
-    - &OrdererOrg
+    - &org0
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: OrdererOrg
+        Name: org0MSP
 
         # ID to load the MSP definition as
-        ID: OrdererMSP
+        ID: org0MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: ./crypto-config/configtx/org0/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -33,26 +33,26 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('org0MSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('org0MSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('OrdererMSP.admin')"
+                Rule: "OR('org0MSP.admin')"
 
         OrdererEndpoints:
-            - orderer1.example.com:7050
+            - orderer1-org0:7050
 
-    - &Org1
+    - &org1
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: org1MSP
 
         # ID to load the MSP definition as
-        ID: Org1MSP
+        ID: org1MSP
 
-        MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: ./crypto-config/configtx/org1/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -60,34 +60,34 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+                Rule: "OR('org1MSP.admin', 'org1MSP.peer', 'org1MSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+                Rule: "OR('org1MSP.admin', 'org1MSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin')"
+                Rule: "OR('org1MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org1MSP.peer')"
+                Rule: "OR('org1MSP.peer')"
 
         # leave this flag set to true.
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org1.example.com
+            - Host: peer1-org1
               Port: 7051
 
-    - &Org2
+    - &org2
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2MSP
+        Name: org2MSP
 
         # ID to load the MSP definition as
-        ID: Org2MSP
+        ID: org2MSP
 
-        MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: ./crypto-config/configtx/org2/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -95,22 +95,22 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')"
+                Rule: "OR('org2MSP.admin', 'org2MSP.peer', 'org2MSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.client')"
+                Rule: "OR('org2MSP.admin', 'org2MSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin')"
+                Rule: "OR('org2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org2MSP.peer')"
+                Rule: "OR('org2MSP.peer')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org2.example.com
+            - Host: peer1-org2
               Port: 9051
 
 ################################################################################
@@ -307,8 +307,8 @@ Profiles:
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
+                - *org1
+                - *org2
             Capabilities:
                 <<: *ApplicationCapabilities
 
@@ -321,43 +321,33 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: orderer1.example.com
+                - Host: orderer1-org0
                   Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/signcerts/cert.pem
-                - Host: orderer2.example.com
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer1-org0/tls-msp/signcerts/cert.pem
+                - Host: orderer2-org0
                   Port: 8050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/signcerts/cert.pem
-                - Host: orderer3.example.com
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer2-org0/tls-msp/signcerts/cert.pem
+                - Host: orderer3-org0
                   Port: 9050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/signcerts/cert.pem
-                - Host: orderer4.example.com
-                  Port: 10050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/signcerts/cert.pem
-                - Host: orderer5.example.com
-                  Port: 11050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/signcerts/cert.pem
+                  ClientTLSCert: ./crypto-config/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
+                  ServerTLSCert: ./crypto-config/org0/orderers/orderer3-org0/tls-msp/signcerts/cert.pem
             Addresses:
-                - orderer1.example.com:7050
-                - orderer2.example.com:8050
-                - orderer3.example.com:9050
-                - orderer4.example.com:10050
-                - orderer5.example.com:11050
+                - orderer1-org0:7050
+                - orderer2-org0:8050
+                - orderer3-org0:9050
 
             Organizations:
-            - *OrdererOrg
+            - *org0
             Capabilities:
                 <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:
-            - <<: *OrdererOrg
+            - <<: *org0
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Org1
-                - *Org2
+                - *org1
+                - *org2

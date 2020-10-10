@@ -43,10 +43,10 @@
         "ca-org1"
       ],
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org1/admin.org1.example.com/msp/keystore/key.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org1/admin.org1.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
-        "path": "src/main/resources/crypto-config/org1/admin.org1.example.com/msp/signcerts/cert.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org1/admin.org1.example.com/msp/signcerts/cert.pem"
       }
     },
     "Org2": {
@@ -58,10 +58,10 @@
         "ca-org2"
       ],
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org2/admin.org2.example.com/msp/keystore/key.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org2/admin.org2.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
-        "path": "src/main/resources/crypto-config/org2/admin.org2.example.com/msp/signcerts/cert.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org2/admin.org2.example.com/msp/signcerts/cert.pem"
       }
     }
   },
@@ -74,13 +74,13 @@
         "hostnameOverride": "orderer1.org0.example.com"
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/org0/orderer1.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org0/orderer1.org0.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
       },
       "adminPrivateKeyPEM": {
-        "path": "src/main/resources/crypto-config/org0/admin.org0.example.com/msp/keystore/key.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org0/admin.org0.example.com/msp/keystore/key.pem"
       },
       "signedCertPEM": {
-        "path": "src/main/resources/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org0/admin.org0.example.com/msp/signcerts/cert.pem"
       }
     }
   },
@@ -93,7 +93,7 @@
         "request-timeout": 120001
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/org1/peer0.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org1/peer0.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
       }
     },
     "peer0.org2.example.com": {
@@ -104,7 +104,7 @@
         "request-timeout": 120001
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/org1/peer1.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org1/peer1.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
       }
     }
   },
@@ -115,7 +115,7 @@
         "verify": true
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/org0/ca/crypto/ca-cert.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org0/ca/crypto/ca-cert.pem"
       },
       "registrar": [
         {
@@ -130,7 +130,7 @@
         "verify": true
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/org0/ca/crypto/ca-cert.pem"
+        "path": "src/main/resources/doc/CA-Config-1/crypto-config/org0/ca/crypto/ca-cert.pem"
       },
       "registrar": [
         {

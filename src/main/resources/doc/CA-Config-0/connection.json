@@ -15,16 +15,16 @@
   "channels": {
     "mychannel": {
       "orderers": [
-        "orderer1.example.com"
+        "orderer3-org0"
       ],
       "peers": {
-        "peer0.org1.example.com": {
+        "peer1-org1": {
           "endorsingPeer": true,
           "chaincodeQuery": true,
           "ledgerQuery": true,
           "eventSource": true
         },
-        "peer0.org2.example.com": {
+        "peer1-org2": {
           "endorsingPeer": true,
           "chaincodeQuery": true,
           "ledgerQuery": true,
@@ -35,9 +35,9 @@
   },
   "organizations": {
     "Org1": {
-      "mspid": "Org1MSP",
+      "mspid": "org1MSP",
       "peers": [
-        "peer0.org1.example.com"
+        "peer1-org1"
       ],
       "certificateAuthorities": [
         "ca-org1"
@@ -50,9 +50,9 @@
       }
     },
     "Org2": {
-      "mspid": "Org2MSP",
+      "mspid": "org2MSP",
       "peers": [
-        "peer0.org2.example.com"
+        "peer1-org2"
       ],
       "certificateAuthorities": [
         "ca-org2"
@@ -67,11 +67,11 @@
   },
   "orderers": {
     "orderer1.example.com": {
-      "url": "grpcs://192.168.171.xxx:7050",
-      "mspid": "OrdererMSP",
+      "url": "grpcs://127.0.0.1:7050",
+      "mspid": "org0",
       "grpcOptions": {
-        "ssl-target-name-override": "orderer.example.com",
-        "hostnameOverride": "orderer.example.com"
+        "ssl-target-name-override": "orderer1-org0",
+        "hostnameOverride": "orderer1-org0"
       },
       "tlsCACerts": {
         "path": "src/main/resources/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/signcerts/cert.pem"
@@ -85,32 +85,32 @@
     }
   },
   "peers": {
-    "peer0.org1.example.com": {
-      "url": "grpcs://192.168.171.xxx:7051",
+    "peer1-org1": {
+      "url": "grpcs://127.0.0.1:7051",
       "grpcOptions": {
-        "ssl-target-name-override": "peer0.org1.example.com",
-        "hostnameOverride": "peer0.org1.example.com",
+        "ssl-target-name-override": "peer1-org1",
+        "hostnameOverride": "peer1-org1",
         "request-timeout": 120001
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/signcerts/cert.pem"
+        "path": "src/main/resources/crypto-config/peerOrganizations/org1.example.com/peers/peer1-org1/tls/signcerts/cert.pem"
       }
     },
-    "peer0.org2.example.com": {
-      "url": "grpcs://192.168.171.xxx:9051",
+    "peer1-org2": {
+      "url": "grpcs://127.0.0.1:9051",
       "grpcOptions": {
-        "ssl-target-name-override": "peer0.org2.example.com",
-        "hostnameOverride": "peer0.org2.example.com",
+        "ssl-target-name-override": "peer1-org2",
+        "hostnameOverride": "peer1-org2",
         "request-timeout": 120001
       },
       "tlsCACerts": {
-        "path": "src/main/resources/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/signcerts/cert.pem"
+        "path": "src/main/resources/crypto-config/peerOrganizations/org2.example.com/peers/peer1-org2/tls/signcerts/cert.pem"
       }
     }
   },
   "certificateAuthorities": {
     "ca-org1": {
-      "url": "https://192.168.171.xxx:7054",
+      "url": "https://127.0.0.1:7054",
       "grpcOptions": {
         "verify": true
       },
@@ -119,13 +119,13 @@
       },
       "registrar": [
         {
-          "enrollId": "admin",
-          "enrollSecret": "adminpw"
+          "enrollId": "admin-org1",
+          "enrollSecret": "org1AdminPW"
         }
       ]
     },
     "ca-org2": {
-      "url": "https://192.168.171.xxx:8054",
+      "url": "https://127.0.0.1:7055",
       "grpcOptions": {
         "verify": true
       },
@@ -134,8 +134,8 @@
       },
       "registrar": [
         {
-          "enrollId": "admin",
-          "enrollSecret": "adminpw"
+          "enrollId": "admin-org2",
+          "enrollSecret": "org2AdminPW"
         }
       ]
     }
