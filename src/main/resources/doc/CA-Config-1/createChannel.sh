@@ -70,7 +70,7 @@ peer lifecycle chaincode package /usr/local/chaincode-artifacts/mycc.tar.gz --pa
 peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
 
 # 将链码id设置变量,便于我们后面的使用
-export CC_PACKAGE_ID=mycc_1:40aec53f0ee0193b0bd6b63862425298d90e9c3496a840bb54366b2fd66bd18f
+export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bdd8d10a5271a3
 
 
 # 查看peer0.org1.example.com链码安装结果
@@ -92,7 +92,7 @@ docker exec -it cli-org2-peer0 bash
 peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
 
 # 将链码id设置变量,便于我们后面的使用
-export CC_PACKAGE_ID=mycc_1:40aec53f0ee0193b0bd6b63862425298d90e9c3496a840bb54366b2fd66bd18f
+export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bdd8d10a5271a3
 
 
 # 查看peer0.org2.example.com链码安装结果
