@@ -56,6 +56,9 @@ exit
 docker exec -it cli-org1-peer0 bash
 
 # 设置golang的环境变量
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+
 pushd /opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/
 GO111MODULE=on go mod vendor
 popd

@@ -36,6 +36,7 @@ services:
 
     volumes:
       - ./data/couchdbs/couchdb0.org1.example.com:/opt/couchdb/data
+      - couchdb0.org1.example.com:/var/hyperledger/production/couchdb
     ports:
       - "5984:5984"
     networks:
@@ -102,6 +103,7 @@ services:
       - COUCHDB_PASSWORD=
     volumes:
       - ./data/couchdbs/couchdb1.org1.example.com:/opt/couchdb/data
+      - couchdb1.org1.example.com:/var/hyperledger/production/couchdb
     ports:
       - "6984:5984"
     networks:
@@ -167,6 +169,7 @@ services:
       - COUCHDB_PASSWORD=
     volumes:
       - ./data/couchdbs/couchdb0.org2.example.com:/opt/couchdb/data
+      - couchdb0.org2.example.com:/var/hyperledger/production/couchdb
     ports:
       - "7984:5984"
     networks:
@@ -233,6 +236,7 @@ services:
       - COUCHDB_PASSWORD=
     volumes:
       - ./data/couchdbs/couchdb1.org2.example.com:/opt/couchdb/data
+      - couchdb1.org2.example.com:/var/hyperledger/production/couchdb
     ports:
       - "8984:5984"
     networks:

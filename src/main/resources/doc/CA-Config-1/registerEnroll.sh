@@ -10,7 +10,8 @@ docker-compose -f docker-compose-ca.yaml  down --volumes --remove-orphans
 ## docker ps -a|awk '{print $1}'|xargs -i docker rm {}
 
 ## docker rm -f $(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
-
+## docker rmi -f $(docker images | awk '($1 ~ /dev-peer.*/) {print $3}')
+## docker volume prune
 
 ## 启动CA服务
 docker-compose -f docker-compose-ca.yaml up -d 2>&1
