@@ -323,6 +323,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./data/logs/orderer1.org0.example.com:data/logs
       - orderer1.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
@@ -358,6 +359,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./data/logs/orderer2.org0.example.com:data/logs
       - orderer2.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 8050:8050
@@ -393,6 +395,7 @@ services:
     volumes:
       - ./crypto-config:/usr/local/home
       - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./data/logs/orderer3.org0.example.com:data/logs
       - orderer3.org0.example.com:/var/hyperledger/production/orderer
     ports:
       - 9050:9050
