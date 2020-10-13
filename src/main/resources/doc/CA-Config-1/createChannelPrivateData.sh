@@ -77,7 +77,7 @@ export CC_PACKAGE_ID=marbles02_private_1:a7fe3a7a4e0124b9a9b86960dac9a28464d1dbd
 peer lifecycle chaincode queryinstalled
 
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
-peer lifecycle chaincode approveformyorg -o orderer1.org0.example.com:7050 --ordererTLSHostnameOverride orderer1.org0.example.com --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name marbles02_private --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1  --waitForEvent
+peer lifecycle chaincode approveformyorg -o orderer1.org0.example.com:7050 --ordererTLSHostnameOverride orderer1.org0.example.com --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name marbles02_private --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --collections-config /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/collections_config.json --waitForEvent
 
 # 查看链码认证结果 此时只有Org1MSP审核通过了
 peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name marbles02_private --version 1 --sequence 1 --output json --init-required  --collections-config /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/collections_config.json
@@ -99,10 +99,10 @@ export CC_PACKAGE_ID=marbles02_private_1:a7fe3a7a4e0124b9a9b86960dac9a28464d1dbd
 peer lifecycle chaincode queryinstalled
 
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
-peer lifecycle chaincode approveformyorg -o orderer1.org0.example.com:7050 --ordererTLSHostnameOverride orderer1.org0.example.com --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name marbles02_private --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1  --waitForEvent
+peer lifecycle chaincode approveformyorg -o orderer1.org0.example.com:7050 --ordererTLSHostnameOverride orderer1.org0.example.com --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name marbles02_private --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --collections-config /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/collections_config.json --waitForEvent
 
 # 查看链码认证结果 此时Org1MSP和Org2MSP都审核通过了
-peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name marbles02_private --version 1 --sequence 1 --output json --init-required
+peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name marbles02_private --version 1 --sequence 1 --output json --init-required  --collections-config /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/collections_config.json
 
 exit
 
@@ -160,7 +160,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 
 # 查询 Org2 未被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble1"]}'
-
+# tx creator does not have read access permission on privatedata in chaincodeName:marbles02_private collectionName: collectionMarblePrivateDetails
 
 
 ## 清除私有数据
