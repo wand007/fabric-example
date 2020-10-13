@@ -50,4 +50,11 @@
 
 
 
+节点分配：
+金融机构 ---->  orderer0
+下发机构 ---->  orderer1
+代理商   ---->  orderer2
+商户    ---->  orderer3
+个体    ---->  orderer4
+
 
