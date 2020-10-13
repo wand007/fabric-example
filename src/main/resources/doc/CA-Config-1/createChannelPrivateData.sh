@@ -139,28 +139,28 @@ peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name marbles
 
 # 链码执行
 export MARBLE=$(echo -n "{\"name\":\"marble1\",\"color\":\"blue\",\"size\":35,\"owner\":\"tom\",\"price\":99}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["InitMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
-
-
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
 
 ## 测试链码
 docker exec -it cli-org1-peer0 bash
 
 # 查询 Org1 被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarble","marble1"]}'
+# 返回信息：{"color":"blue","docType":"marble","name":"marble1","owner":"tom","size":35}
 
 # 查询 Org1 未被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble1"]}'
-
+# 返回信息：{"docType":"marblePrivateDetails","name":"marble1","price":99}
 
 docker exec -it cli-org2-peer0 bash
 
 # 查询 Org2 被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarble","marble1"]}'
+# 返回信息：{"color":"blue","docType":"marble","name":"marble1","owner":"tom","size":35}
 
 # 查询 Org2 未被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble1"]}'
-# tx creator does not have read access permission on privatedata in chaincodeName:marbles02_private collectionName: collectionMarblePrivateDetails
+# 异常日志 tx creator does not have read access permission on privatedata in chaincodeName:marbles02_private collectionName: collectionMarblePrivateDetails
 
 
 ## 清除私有数据
@@ -176,17 +176,17 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 
 # 创建一个新的 marble2。这个交易将在链上创建一个新区块
 export MARBLE=$(echo -n "{\"name\":\"marble2\",\"color\":\"blue\",\"size\":35,\"owner\":\"tom\",\"price\":99}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["InitMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
 
 # 查询 marble1 的价格数据
-peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble1"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble2"]}'
 
 # 私有数据没有被清除，查询结果也没有改变
 
 
 # 将 marble2 转移给 “joe” 。这个交易将使链上增加第二个区块。
 export MARBLE_OWNER=$(echo -n "{\"name\":\"marble2\",\"owner\":\"joe\"}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["InitMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
 
 
 ## 切换回终端窗口并查看节点的私有数据日志。你将看到区块高度增加了 1 。
@@ -198,7 +198,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 # 将 marble2 转移给 “tom” 。这个交易将使链上增加第三个区块。
 
 export MARBLE_OWNER=$(echo -n "{\"name\":\"marble2\",\"owner\":\"tom\"}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["InitMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
 
 ## 切换回终端窗口并查看节点的私有数据日志。你将看到区块高度增加了 1 。
 docker logs peer0.org1.example.com 2>&1 | grep -i -a -E 'private|pvt|privdata'
@@ -208,7 +208,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 
 # 最后，运行下边的命令将 marble2 转移给 “jerry” 。这个交易将使链上增加第四个区块。在此次交易之后，price 私有数据将会被清除。
 export MARBLE_OWNER=$(echo -n "{\"name\":\"marble2\",\"owner\":\"jerry\"}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["InitMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
 
 ## 再次切换回终端窗口并查看节点的私有数据日志。你将看到区块高度增加了 1 。
 docker logs peer0.org1.example.com 2>&1 | grep -i -a -E 'private|pvt|privdata'
