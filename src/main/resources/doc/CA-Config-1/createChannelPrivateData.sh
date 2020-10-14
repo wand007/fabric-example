@@ -164,6 +164,13 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarblePrivateDetails","marble1"]}'
 # 异常日志 tx creator does not have read access permission on privatedata in chaincodeName:marbles02_private collectionName: collectionMarblePrivateDetails
 
+# 其他方法
+peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["getMarblesByRange","marble1","marble4"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["queryMarblesByOwner","tom"]}'
+peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["queryMarbles","{\"selector\":{\"owner\":\"tom\"}}"]}'
+
+
+
 
 ## 清除私有数据
 docker exec -it cli-org1-peer0 bash
