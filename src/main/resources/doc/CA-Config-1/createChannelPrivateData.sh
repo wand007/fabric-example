@@ -1,4 +1,6 @@
 
+## 官方文档：https://hyperledger-fabric.readthedocs.io/zh_CN/release-2.2/private_data_tutorial.html
+
 ## 启动cli服务
 docker-compose -f docker-compose-cli-peers.yaml up  -d 2>&1
 
@@ -197,7 +199,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 # 将 marble2 转移给 “tom” 。这个交易将使链上增加第三个区块。
 
 export MARBLE_OWNER=$(echo -n "{\"name\":\"marble2\",\"owner\":\"tom\"}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble_owner\":\"$MARBLE_OWNER\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"Args":["transferMarble"]}' --transient "{\"marble_owner\":\"$MARBLE_OWNER\"}" --waitForEvent
 
 ## 切换回终端窗口并查看节点的私有数据日志。你将看到区块高度增加了 1 。
 docker logs peer0.org1.example.com 2>&1 | grep -i -a -E 'private|pvt|privdata'
@@ -207,7 +209,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMar
 
 # 最后，运行下边的命令将 marble2 转移给 “jerry” 。这个交易将使链上增加第四个区块。在此次交易之后，price 私有数据将会被清除。
 export MARBLE_OWNER=$(echo -n "{\"name\":\"marble2\",\"owner\":\"jerry\"}" | base64 | tr -d \\n)
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE_OWNER\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"Args":["transferMarble"]}' --transient "{\"marble_owner\":\"$MARBLE_OWNER\"}" --waitForEvent
 
 ## 再次切换回终端窗口并查看节点的私有数据日志。你将看到区块高度增加了 1 。
 docker logs peer0.org1.example.com 2>&1 | grep -i -a -E 'private|pvt|privdata'
