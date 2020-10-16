@@ -11,10 +11,14 @@ volumes:
   couchdb1.org1.example.com:
   couchdb0.org2.example.com:
   couchdb1.org2.example.com:
+  couchdb0.org3.example.com:
+  couchdb1.org3.example.com:
   peer0.org1.example.com:
   peer1.org1.example.com:
   peer0.org2.example.com:
   peer1.org2.example.com:
+  peer0.org3.example.com:
+  peer1.org3.example.com:
   orderer1.org0.example.com:
   orderer2.org0.example.com:
   orderer3.org0.example.com:
@@ -279,7 +283,7 @@ services:
 
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org2.example.com:8984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org2.example.com:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer1.org2.example.com
@@ -291,6 +295,140 @@ services:
       - byfn
     ports:
       - 10051:10051
+    depends_on:
+      - couchdb1.org2.example.com
+
+
+  couchdb0.org3.example.com:
+    container_name: couchdb0.org3.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    volumes:
+      - ./data/couchdbs/couchdb0.org3.example.com:/opt/couchdb/data
+      - couchdb0.org3.example.com:/var/hyperledger/production/couchdb
+    ports:
+      - "9984:5984"
+    networks:
+      - byfn
+
+
+  peer0.org3.example.com:
+    container_name: peer0.org3.example.com
+    image: hyperledger/fabric-peer:amd64-2.1.0
+    environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # 网络模式
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_ID=peer0.org3.example.com
+      - CORE_PEER_ADDRESS=peer0.org3.example.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+
+      ## peer1的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer2的CORE_PEER_ADDRESS
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org3.example.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org3.example.com:11051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # 通信是否使用tls加密
+      - CORE_PEER_TLS_ENABLED=true
+      # tls签名证书路径
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org3/peer0.org3.example.com/tls-msp/signcerts/cert.pem
+      # tls私钥证书路径
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org3/peer0.org3.example.com/tls-msp/keystore/key.pem
+      # tls服务端的根证书路径
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org3/peer0.org3.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org3/peer0.org3.example.com/msp
+
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org3.example.com:9984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org3/peer0.org3.example.com
+    volumes:
+      - /var/run:/host/var/run
+      - ./crypto-config:/usr/local/home
+      - peer0.org3.example.com:/var/hyperledger/production
+    networks:
+      - byfn
+    ports:
+      - 11051:11051
+    depends_on:
+      - couchdb0.org3.example.com
+
+
+  couchdb1.org3.example.com:
+    container_name: couchdb1.org3.example.com
+    image: hyperledger/fabric-couchdb:0.4.18
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    volumes:
+      - ./data/couchdbs/couchdb1.org3.example.com:/opt/couchdb/data
+      - couchdb1.org3.example.com:/var/hyperledger/production/couchdb
+    ports:
+      - "10984:5984"
+    networks:
+      - byfn
+
+
+  peer1.org3.example.com:
+    container_name: peer1.org3.example.com
+    image: hyperledger/fabric-peer:amd64-2.1.0
+    environment:
+      # 日志级别
+      - FABRIC_LOGGING_SPEC=debug
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # 网络模式
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_ID=peer1.org3.example.com
+      - CORE_PEER_ADDRESS=peer1.org3.example.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.org3.example.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+
+      ## peer2的CORE_PEER_GOSSIP_BOOTSTRAP = 同组织下的peer1的CORE_PEER_ADDRESS
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org3.example.com:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org3.example.com:12051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # 通信是否使用tls加密
+      - CORE_PEER_TLS_ENABLED=true
+      # tls签名证书路径
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org3/peer1.org3.example.com/tls-msp/signcerts/cert.pem
+      # tls私钥证书路径
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org3/peer1.org3.example.com/tls-msp/keystore/key.pem
+      # tls服务端的根证书路径
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org3/peer1.org3.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      # msp证书路径
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org3/peer1.org3.example.com/msp
+
+      # 声明CouchDB配置
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org3.example.com:10984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org3/peer1.org3.example.com
+    volumes:
+      - /var/run:/host/var/run
+      - ./crypto-config:/usr/local/home
+      - peer1.org3.example.com:/var/hyperledger/production
+    networks:
+      - byfn
+    ports:
+      - 12051:12051
     depends_on:
       - couchdb1.org2.example.com
 
