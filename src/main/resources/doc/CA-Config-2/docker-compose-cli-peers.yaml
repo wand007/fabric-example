@@ -13,6 +13,12 @@ volumes:
   cli-org2-peer1:
   cli-org3-peer0:
   cli-org3-peer1:
+  cli-org4-peer0:
+  cli-org4-peer1:
+  cli-org5-peer0:
+  cli-org5-peer1:
+  cli-org6-peer0:
+  cli-org6-peer1:
 
 networks:
   byfn:
@@ -225,3 +231,211 @@ services:
       - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
     networks:
       - byfn
+
+
+  cli-org4-peer0:
+    container_name: cli-org4-peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer0.org4.example.com
+      - CORE_PEER_ADDRESS=peer0.org4.example.com:13051
+      - CORE_PEER_LOCALMSPID=Org4MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org4/peer0.org4.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org4/peer0.org4.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org4/peer0.org4.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org4/admin.org4.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org4
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
+
+
+  cli-org4-peer1:
+    container_name: cli-org4-peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer1.org4.example.com
+      - CORE_PEER_ADDRESS=peer1.org4.example.com:14051
+      - CORE_PEER_LOCALMSPID=Org4MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org4/peer1.org4.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org4/peer1.org4.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org4/peer1.org4.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org4/admin.org4.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org4
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
+
+  cli-org5-peer0:
+    container_name: cli-org5-peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer0.org5.example.com
+      - CORE_PEER_ADDRESS=peer0.org5.example.com:13051
+      - CORE_PEER_LOCALMSPID=Org5MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org5/peer0.org5.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org5/peer0.org5.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org5/peer0.org5.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org5/admin.org5.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org4
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
+
+
+  cli-org5-peer1:
+    container_name: cli-org5-peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer1.org5.example.com
+      - CORE_PEER_ADDRESS=peer1.org5.example.com:14051
+      - CORE_PEER_LOCALMSPID=Org5MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org5/peer1.org5.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org5/peer1.org5.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org5/peer1.org5.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org5/admin.org5.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org5
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
+
+  cli-org6-peer0:
+    container_name: cli-org6-peer0
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer0.org6.example.com
+      - CORE_PEER_ADDRESS=peer0.org6.example.com:13051
+      - CORE_PEER_LOCALMSPID=Org6MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org6/peer0.org6.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org6/peer0.org6.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org6/peer0.org6.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org6/admin.org6.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org6
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
+
+
+  cli-org6-peer1:
+    container_name: cli-org6-peer1
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=peer1.org6.example.com
+      - CORE_PEER_ADDRESS=peer1.org6.example.com:14051
+      - CORE_PEER_LOCALMSPID=Org6MSP
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org6/peer1.org6.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_TLS_CERT_FILE=/usr/local/home/org6/peer1.org6.example.com/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/usr/local/home/org6/peer1.org6.example.com/tls-msp/keystore/key.pem
+      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org6/admin.org6.example.com/msp
+      # 自定义环境变量
+      - CHANNEL_NAME=mychannel
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org6
+    command: /bin/bash
+    volumes:
+      - ./crypto-config:/usr/local/home
+      - ./channel-artifacts:/usr/local/channel-artifacts
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/chaincode
+      - ./chaincode-artifacts/:/usr/local/chaincode-artifacts
+    networks:
+      - byfn
+
