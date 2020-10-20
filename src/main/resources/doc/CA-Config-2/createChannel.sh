@@ -51,6 +51,51 @@ peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
 
 exit
 
+
+# 加入通道
+docker exec -it cli-org4-peer0 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
+# 加入通道
+docker exec -it cli-org4-peer1 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
+
+# 加入通道
+docker exec -it cli-org5-peer0 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
+# 加入通道
+docker exec -it cli-org5-peer1 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
+
+# 加入通道
+docker exec -it cli-org6-peer0 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
+# 加入通道
+docker exec -it cli-org6-peer1 bash
+
+peer channel join -b /usr/local/channel-artifacts/$CHANNEL_NAME.block
+
+exit
+
 # 更新锚节点
 docker exec -it cli-org1-peer0 bash
 

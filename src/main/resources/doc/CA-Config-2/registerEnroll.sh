@@ -195,7 +195,7 @@ fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0
 export FABRIC_CA_CLIENT_HOME=$PWD/crypto-config/org2/admin.org2.example.com
 export FABRIC_CA_CLIENT_MSPDIR=tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/crypto-config/tls-ca/crypto/ca-cert.pem
-fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts peer1.org2.example.com
+fabric-ca-client enroll -d -u https://admin.org2.example.com:org2AdminPW@0.0.0.0:7052 --enrollment.profile tls --csr.hosts admin.org2.example.com
 
 mv $PWD/crypto-config/org2/admin.org2.example.com/msp/keystore/*_sk $PWD/crypto-config/org2/admin.org2.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org2/admin.org2.example.com/tls-msp/keystore/key.pem
@@ -589,23 +589,23 @@ cp ./org1-config/config.yaml ./crypto-config/org1/peer1.org1.example.com/msp/
 
 cp ./org2-config/config.yaml ./crypto-config/org2/admin.org2.example.com/msp/
 cp ./org2-config/config.yaml ./crypto-config/org2/peer0.org2.example.com/msp/
-cp ./org2-config/config.yaml ./crypto-config/org2/peer0.org2.example.com/msp/
+cp ./org2-config/config.yaml ./crypto-config/org2/peer1.org2.example.com/msp/
 
 cp ./org3-config/config.yaml ./crypto-config/org3/admin.org3.example.com/msp/
 cp ./org3-config/config.yaml ./crypto-config/org3/peer0.org3.example.com/msp/
-cp ./org3-config/config.yaml ./crypto-config/org3/peer0.org3.example.com/msp/
+cp ./org3-config/config.yaml ./crypto-config/org3/peer1.org3.example.com/msp/
 
 cp ./org4-config/config.yaml ./crypto-config/org4/admin.org4.example.com/msp/
 cp ./org4-config/config.yaml ./crypto-config/org4/peer0.org4.example.com/msp/
-cp ./org4-config/config.yaml ./crypto-config/org4/peer0.org4.example.com/msp/
+cp ./org4-config/config.yaml ./crypto-config/org4/peer1.org4.example.com/msp/
 
 cp ./org5-config/config.yaml ./crypto-config/org5/admin.org5.example.com/msp/
 cp ./org5-config/config.yaml ./crypto-config/org5/peer0.org5.example.com/msp/
-cp ./org5-config/config.yaml ./crypto-config/org5/peer0.org5.example.com/msp/
+cp ./org5-config/config.yaml ./crypto-config/org5/peer1.org5.example.com/msp/
 
 cp ./org6-config/config.yaml ./crypto-config/org6/admin.org6.example.com/msp/
 cp ./org6-config/config.yaml ./crypto-config/org6/peer0.org6.example.com/msp/
-cp ./org6-config/config.yaml ./crypto-config/org6/peer0.org6.example.com/msp/
+cp ./org6-config/config.yaml ./crypto-config/org6/peer1.org6.example.com/msp/
 
 
 ## org0的admin证书
