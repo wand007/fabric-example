@@ -35,7 +35,7 @@
 │   │   │       ├── cacerts
 │   │   │       │   └── 0-0-0-0-7053.pem
 │   │   │       ├── keystore
-│   │   │       │   └── 3dc1710f76641160dcdeeabd0503e1546c2e3bb3ffa0b791e5e2a79d1c68c7ab_sk
+│   │   │       │   └── fd1c2489f8c8baa5fdffa870b9e3d55042f3699fc55efc415719f27c2eb84f3e_sk
 │   │   │       ├── signcerts
 │   │   │       │   └── cert.pem
 │   │   │       └── user
@@ -48,10 +48,10 @@
 │   │       ├── msp
 │   │       │   ├── cacerts
 │   │       │   ├── keystore
-│   │       │   │   ├── 90da8834a678c90efdf9aa315daaae76dca3bb89fe478959d01bc6cb1d790687_sk
+│   │       │   │   ├── 35084ef8618d4609af2c7938bdc7f2bea7a444feffcb3abf1f952313bdd73485_sk
+│   │       │   │   ├── 382a4f129cecf81ae490e89812c1c3feca41921e0217a4d73d37900f7fb2b1ce_sk
 │   │       │   │   ├── IssuerRevocationPrivateKey
-│   │       │   │   ├── IssuerSecretKey
-│   │       │   │   └── b508006cf734f0d7c0573356ed4960116efb38ed8447ebf1ad0b84c95e9d2300_sk
+│   │       │   │   └── IssuerSecretKey
 │   │       │   ├── signcerts
 │   │       │   └── user
 │   │       └── tls-cert.pem
@@ -221,7 +221,7 @@
 │   │   │       ├── cacerts
 │   │   │       │   └── 0-0-0-0-7054.pem
 │   │   │       ├── keystore
-│   │   │       │   └── 6a3915310100da72c69a241980b461fc338a4b7d7ab761727c0be1d9f2f5a90f_sk
+│   │   │       │   └── 408644ab8e94587855f7b0ef01088d33121f34cfb9bf84f97e6fb7a07e902a3b_sk
 │   │   │       ├── signcerts
 │   │   │       │   └── cert.pem
 │   │   │       └── user
@@ -234,23 +234,27 @@
 │   │       ├── msp
 │   │       │   ├── cacerts
 │   │       │   ├── keystore
-│   │       │   │   ├── 726204ded1c6be83ead372623cf528f4500595e596b1084276173db7ebca1008_sk
-│   │       │   │   ├── 9ba9a8d617028e2664ee58034aef5b9845101a951a5addfe98b455482c315472_sk
+│   │       │   │   ├── 8ca4b0e4260a939f3b0a623dfb67653a406c6c3d7bd1ffd0f53de4d81a674148_sk
 │   │       │   │   ├── IssuerRevocationPrivateKey
-│   │       │   │   └── IssuerSecretKey
+│   │       │   │   ├── IssuerSecretKey
+│   │       │   │   └── d3e556b43ad33d7281dacd493d4ed39b77b3765ea9af7ea64007749bb06ffbf0_sk
 │   │       │   ├── signcerts
 │   │       │   └── user
 │   │       └── tls-cert.pem
 │   ├── peer0.org1.example.com
 │   │   ├── fabric-ca-client-config.yaml
 │   │   ├── msp
+│   │   │   ├── IssuerPublicKey
+│   │   │   ├── IssuerRevocationPublicKey
 │   │   │   ├── admincerts
 │   │   │   │   └── org1-admin-cert.pem
 │   │   │   ├── cacerts
+│   │   │   │   └── 0-0-0-0-7054.pem
 │   │   │   ├── config.yaml
 │   │   │   ├── keystore
 │   │   │   │   └── key.pem
 │   │   │   ├── signcerts
+│   │   │   │   └── cert.pem
 │   │   │   └── user
 │   │   └── tls-msp
 │   │       ├── IssuerPublicKey
@@ -325,7 +329,7 @@
 │   │   │       ├── cacerts
 │   │   │       │   └── 0-0-0-0-7055.pem
 │   │   │       ├── keystore
-│   │   │       │   └── c1a0ff14e995d07978730dc20a657fc2101e240bc465f13e4b23ab8e712a7c8f_sk
+│   │   │       │   └── fa0c35738f5568428437dd1afa621511c7262c1b1b33df614d14184d6062456b_sk
 │   │   │       ├── signcerts
 │   │   │       │   └── cert.pem
 │   │   │       └── user
@@ -338,10 +342,10 @@
 │   │       ├── msp
 │   │       │   ├── cacerts
 │   │       │   ├── keystore
-│   │       │   │   ├── 090145808f7ce107e2f68594eca35850e95e50762537529c7fe4efa2b9ed734c_sk
-│   │       │   │   ├── 11cf0e289cc6fa3299bbb3c50ca8ed4345d13b21825cb9e3be291bdb42237bc4_sk
+│   │       │   │   ├── 9af890e50079e951fdfca5a927fa715ea3ea245904e86572b7473b13e0a51752_sk
 │   │       │   │   ├── IssuerRevocationPrivateKey
-│   │       │   │   └── IssuerSecretKey
+│   │       │   │   ├── IssuerSecretKey
+│   │       │   │   └── c0c499a09d5e1fabedb4a5b7b1688e1ec0eff9ace8e947ca4eb40bd2d8d6d112_sk
 │   │       │   ├── signcerts
 │   │       │   └── user
 │   │       └── tls-cert.pem
@@ -399,23 +403,13 @@
 └── tls-ca
     ├── admin
     │   ├── fabric-ca-client-config.yaml
-    │   ├── msp
-    │   │   ├── IssuerPublicKey
-    │   │   ├── IssuerRevocationPublicKey
-    │   │   ├── cacerts
-    │   │   │   └── 0-0-0-0-7052.pem
-    │   │   ├── keystore
-    │   │   │   └── cf1105a00bc0459945d1d3deb125f60590635c4f9ab5adc8513c063e13b92102_sk
-    │   │   ├── signcerts
-    │   │   │   └── cert.pem
-    │   │   └── user
-    │   └── tls-msp
+    │   └── msp
     │       ├── IssuerPublicKey
     │       ├── IssuerRevocationPublicKey
     │       ├── cacerts
     │       │   └── 0-0-0-0-7052.pem
     │       ├── keystore
-    │       │   └── 8312359ae86deece7a0e56cf7478dbdca6ec492bcc318d9b9b2343ef0191e6a0_sk
+    │       │   └── eb8c2c0c982c6a6496faa22f71f550c41dea451c51a076270162e0fdba552330_sk
     │       ├── signcerts
     │       │   └── cert.pem
     │       └── user
@@ -428,8 +422,8 @@
         ├── msp
         │   ├── cacerts
         │   ├── keystore
-        │   │   ├── 2fa3f81d23ce7fec6ee1fb536f6251766ba93d87ee820f1eb956aa6d14817867_sk
-        │   │   ├── 41c5332fee484a4c8a3551bb2c3014f8519adf630f87b7b9a0823ad857b74f53_sk
+        │   │   ├── 1c62b096622773036a8851290f9c6c917a9b908fc80fe95e63464d726cf45154_sk
+        │   │   ├── 4b0d8f6ac2391a2d96c72088c7939ecc1485811bc6f57f7802e8e3a5561ed0d2_sk
         │   │   ├── IssuerRevocationPrivateKey
         │   │   └── IssuerSecretKey
         │   ├── signcerts
@@ -437,4 +431,4 @@
         └── tls-cert.pem
 - [error opening dir]
 
-216 directories, 220 files
+211 directories, 219 files
