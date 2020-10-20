@@ -57,16 +57,17 @@ exit
 # pee0-org1安装链码
 docker exec -it cli-org1-peer0 bash
 
+export CC_SRC_PATH=/opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/go/
 # 设置golang的环境变量
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 
-pushd /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/go/
+pushd $CC_SRC_PATH
 GO111MODULE=on go mod vendor
 popd
 
 # 打包链码
-peer lifecycle chaincode package /usr/local/chaincode-artifacts/marbles02_private.tar.gz --path /opt/gopath/src/github.com/hyperledger/chaincode/marbles02_private/go/ --lang golang --label marbles02_private_1
+peer lifecycle chaincode package /usr/local/chaincode-artifacts/marbles02_private.tar.gz --path $CC_SRC_PATH --lang golang --label marbles02_private_1
 
 # 安装链码
 peer lifecycle chaincode install /usr/local/chaincode-artifacts/marbles02_private.tar.gz
