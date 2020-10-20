@@ -25,18 +25,20 @@ fabric-ca-client enroll -d -u https://tls-ca-admin:tls-ca-adminpw@0.0.0.0:7052
 
 ## 注册tls
 # 为各个组件(组件指的是 peer,order和管理员)注册TLS证书,仅仅是注册了身份,并没有获取到证书;
-fabric-ca-client register -d --id.name peer0.org1.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name peer1.org1.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name peer0.org2.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name admin.org0.example.com --id.secret org0AdminPW --id.type admin -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer1.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer2.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer3.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer4.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer5.org0.example.com --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+
+fabric-ca-client register -d --id.name peer0.org1.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer1.org1.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer0.org2.example.com --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name peer1.org2.example.com --id.secret peer2PW --id.type peer -u https://0.0.0.0:7052
+
+fabric-ca-client register -d --id.name admin.org0.example.com --id.secret org0AdminPW --id.type admin -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name admin.org1.example.com --id.secret org1AdminPW --id.type admin -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name admin.org2.example.com --id.secret org2AdminPW --id.type admin -u https://0.0.0.0:7052
 
 
 ## 登录org0

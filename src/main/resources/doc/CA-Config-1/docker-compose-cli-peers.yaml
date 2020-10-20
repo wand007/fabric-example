@@ -42,6 +42,7 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin.org1.example.com/msp
       # 自定义环境变量
       - CHANNEL_NAME=mychannel
+      - CC_NAME=mycc
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
     volumes:
@@ -77,6 +78,7 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/admin.org1.example.com/msp
       # 自定义环境变量
       - CHANNEL_NAME=mychannel
+      - CC_NAME=mycc
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1
     command: /bin/bash
     volumes:
@@ -111,6 +113,7 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin.org2.example.com/msp
       # 自定义环境变量
       - CHANNEL_NAME=mychannel
+      - CC_NAME=mycc
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
     volumes:
@@ -145,6 +148,7 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/admin.org2.example.com/msp
       # 自定义环境变量
       - CHANNEL_NAME=mychannel
+      - CC_NAME=mycc
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2
     command: /bin/bash
     volumes:

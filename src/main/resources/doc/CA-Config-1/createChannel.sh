@@ -55,19 +55,21 @@ exit
 # pee0-org1安装链码
 docker exec -it cli-org1-peer0 bash
 
+export CC_SRC_PATH=/opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/
+
 # 设置golang的环境变量
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 
-pushd /opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/
+pushd $CC_SRC_PATH
 GO111MODULE=on go mod vendor
 popd
 
 # 打包链码
-peer lifecycle chaincode package /usr/local/chaincode-artifacts/mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/chaincode/abstore/go/ --lang golang --label mycc_1
+peer lifecycle chaincode package /usr/local/chaincode-artifacts/$CC_NAME.tar.gz --path $CC_SRC_PATH --lang golang --label $CC_NAME_1
 
 # 安装链码
-peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
+peer lifecycle chaincode install /usr/local/chaincode-artifacts/$CC_NAME.tar.gz
 
 # 将链码id设置变量,便于我们后面的使用
 export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bdd8d10a5271a3
@@ -77,10 +79,10 @@ export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bd
 peer lifecycle chaincode queryinstalled
 
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
-peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name mycc --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
+peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name $CC_NAME --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
 
 # 查看链码认证结果 此时只有Org1MSP审核通过了
-peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name mycc --version 1 --sequence 1 --output json --init-required
+peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name $CC_NAME --version 1 --sequence 1 --output json --init-required
 
 exit
 
@@ -89,7 +91,7 @@ exit
 docker exec -it cli-org2-peer0 bash
 
 # 安装链码
-peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
+peer lifecycle chaincode install /usr/local/chaincode-artifacts/$CC_NAME.tar.gz
 
 # 将链码id设置变量,便于我们后面的使用
 export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bdd8d10a5271a3
@@ -99,10 +101,10 @@ export CC_PACKAGE_ID=mycc_1:d20cd913137f97de299fcb3ee381e3bf7c755501ba5955a323bd
 peer lifecycle chaincode queryinstalled
 
 # 链码认证 根据设置的链码审批规则，只需要当前组织中的任意一个节点审批通过即可
-peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name mycc --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
+peer lifecycle chaincode approveformyorg --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --channelID $CHANNEL_NAME --name $CC_NAME --version 1 --init-required --package-id $CC_PACKAGE_ID --sequence 1 --waitForEvent
 
 # 查看链码认证结果 此时Org1MSP和Org2MSP都审核通过了
-peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name mycc --version 1 --sequence 1 --output json --init-required
+peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name $CC_NAME --version 1 --sequence 1 --output json --init-required
 
 exit
 
@@ -110,7 +112,7 @@ exit
 docker exec -it cli-org1-peer1 bash
 
 # 安装链码
-peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
+peer lifecycle chaincode install /usr/local/chaincode-artifacts/$CC_NAME.tar.gz
 
 # 查看peer0.org2.example.com链码安装结果
 peer lifecycle chaincode queryinstalled
@@ -121,7 +123,7 @@ exit
 docker exec -it cli-org2-peer1 bash
 
 # 安装链码
-peer lifecycle chaincode install /usr/local/chaincode-artifacts/mycc.tar.gz
+peer lifecycle chaincode install /usr/local/chaincode-artifacts/$CC_NAME.tar.gz
 
 # 查看peer0.org2.example.com链码安装结果
 peer lifecycle chaincode queryinstalled
@@ -132,23 +134,23 @@ exit
 docker exec -it cli-org1-peer0 bash
 
 # 提交链码
-peer lifecycle chaincode commit -o orderer1.org0.example.com:7050 --channelID $CHANNEL_NAME --name mycc --version 1 --sequence 1 --init-required --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
+peer lifecycle chaincode commit -o orderer1.org0.example.com:7050 --channelID $CHANNEL_NAME --name $CC_NAME --version 1 --sequence 1 --init-required --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE
 
 # 查询已经提交的链码
-peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name mycc
+peer lifecycle chaincode querycommitted --channelID $CHANNEL_NAME --name $CC_NAME
 
 
 # 链码实例化 2.0版本以后取消了这步操作
-# peer chaincode instantiate -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C mychannel -n mycc -v 1.0 -c '{"Args":["Init","a","100","b","100"]}'
+# peer chaincode instantiate -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C mychannel -n $CC_NAME -v 1.0 -c '{"Args":["Init","a","100","b","100"]}'
 
 # 链码执行
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["Init","a","100","b","100"]}' --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n $CC_NAME --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --isInit -c '{"Args":["Init","a","100","b","100"]}' --waitForEvent
 
 # 链码数据查询
-peer chaincode query -n mycc -C mychannel -c '{"Args":["query","a"]}'
+peer chaincode query -n $CC_NAME -C mychannel -c '{"Args":["query","a"]}'
 
 # 链码数据更新
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n mycc --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"Args":["invoke","a","b","10"]}'  --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n $CC_NAME --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"Args":["invoke","a","b","10"]}'  --waitForEvent
 
 
 
