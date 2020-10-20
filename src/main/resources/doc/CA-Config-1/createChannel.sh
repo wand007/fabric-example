@@ -66,7 +66,7 @@ GO111MODULE=on go mod vendor
 popd
 
 # 打包链码
-peer lifecycle chaincode package /usr/local/chaincode-artifacts/$CC_NAME.tar.gz --path $CC_SRC_PATH --lang golang --label $CC_NAME_1
+peer lifecycle chaincode package /usr/local/chaincode-artifacts/$CC_NAME.tar.gz --path $CC_SRC_PATH --lang golang --label mycc_1
 
 # 安装链码
 peer lifecycle chaincode install /usr/local/chaincode-artifacts/$CC_NAME.tar.gz

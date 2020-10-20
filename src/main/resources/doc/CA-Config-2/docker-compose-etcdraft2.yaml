@@ -161,7 +161,7 @@ services:
 #      - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1.org1.example.com/msp
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org1.example.com:6984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org1.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer1.org1.example.com
@@ -228,7 +228,7 @@ services:
 
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org2.example.com:7984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org2.example.com:5984
       - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org2/peer0.org2.example.com
@@ -362,7 +362,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org3.example.com:9984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org3.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org3/peer0.org3.example.com
@@ -429,7 +429,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org3.example.com:10984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org3.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org3/peer1.org3.example.com
@@ -497,7 +497,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org4.example.com:11984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org4.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org4/peer0.org4.example.com
@@ -564,7 +564,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org4.example.com:12984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org4.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org4/peer1.org4.example.com
@@ -632,7 +632,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org5.example.com:13984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org5.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org5/peer0.org5.example.com
@@ -699,7 +699,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org5.example.com:14984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org5.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org5/peer1.org5.example.com
@@ -767,7 +767,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org6.example.com:15984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org6.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org3/peer0.org6.example.com
@@ -834,7 +834,7 @@ services:
 #
 #      # 声明CouchDB配置
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org6.example.com:16984
+#      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org6.example.com:5984
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
 #    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org6/peer1.org6.example.com
