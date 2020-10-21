@@ -328,7 +328,7 @@ fabric-ca-client enroll -d -u https://peer0.org4.example.com:peer1PW@0.0.0.0:705
 mv $PWD/crypto-config/org4/peer0.org4.example.com/msp/keystore/*_sk $PWD/crypto-config/org4/peer0.org4.example.com/msp/keystore/key.pem
 mv $PWD/crypto-config/org4/peer0.org4.example.com/tls-msp/keystore/*_sk $PWD/crypto-config/org4/peer0.org4.example.com/tls-msp/keystore/key.pem
 mkdir -p $PWD/crypto-config/org4/peer0.org4.example.com/msp/admincerts
-cp $PWD/crypto-config/org3/admin.org4.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org4/peer0.org4.example.com/msp/admincerts/org4-admin-cert.pem
+cp $PWD/crypto-config/org4/admin.org4.example.com/msp/signcerts/cert.pem $PWD/crypto-config/org4/peer0.org4.example.com/msp/admincerts/org4-admin-cert.pem
 
 
 
