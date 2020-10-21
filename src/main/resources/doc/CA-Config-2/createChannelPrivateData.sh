@@ -368,6 +368,7 @@ peer lifecycle chaincode queryinstalled
 
 exit
 
+
 # 部署链码
 docker exec -it cli-org1-peer0 bash
 
@@ -389,7 +390,7 @@ exit
 docker exec -it cli-org1-peer0 bash
 
 # 创建一条记录marble1
-peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
+peer chaincode invoke -o orderer1.org0.example.com:7050 --tls true --cafile $CORE_PEER_TLS_ROOTCERT_FILE -C $CHANNEL_NAME -n marbles02_private --peerAddresses peer0.org1.example.com:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses peer0.org2.example.com:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  --peerAddresses peer0.org3.example.com:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  --peerAddresses peer0.org4.example.com:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  --peerAddresses peer0.org5.example.com:15051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE   --peerAddresses peer0.org6.example.com:17051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE -c '{"Args":["initMarble"]}' --transient "{\"marble\":\"$MARBLE\"}" --waitForEvent
 
 # 查询 Org1 被授权的私有数据
 peer chaincode query -C $CHANNEL_NAME -n marbles02_private -c '{"Args":["readMarble","marble1"]}'
