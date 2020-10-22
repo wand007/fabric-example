@@ -76,6 +76,8 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer0.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       # msp证书路径
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer0.org1.example.com/msp
+      # Allow more time for chaincode container to build on install.
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org1.example.com:5984
@@ -143,6 +145,8 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org1/peer1.org1.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       # msp证书路径
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org1/peer1.org1.example.com/msp
+      # Allow more time for chaincode container to build on install.
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org1.example.com:5984
@@ -209,7 +213,8 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer0.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       # msp证书路径
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer0.org2.example.com/msp
-
+      # Allow more time for chaincode container to build on install.
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0.org2.example.com:5984
@@ -276,7 +281,8 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/usr/local/home/org2/peer1.org2.example.com/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       # msp证书路径
       - CORE_PEER_MSPCONFIGPATH=/usr/local/home/org2/peer1.org2.example.com/msp
-
+      # Allow more time for chaincode container to build on install.
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
       # 声明CouchDB配置
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1.org2.example.com:5984
